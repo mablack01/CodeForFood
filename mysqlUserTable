@@ -1,0 +1,6 @@
+CREATE TABLE user(
+	int userID PRIMARY KEY,
+	varchar(20) username,
+	varchar(20) passwordHash,
+	varchar(20) salt,
+	varchar(20) 	
