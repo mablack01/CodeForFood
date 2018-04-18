@@ -1,0 +1,10 @@
+Issues list
+Bugs list
+change log
+
+5 slides
+
+	client concerns
+	design desions
+
+touchy feely things
