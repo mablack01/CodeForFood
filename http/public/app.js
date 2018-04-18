@@ -16,3 +16,15 @@ function post (path, data) {
     body: JSON.stringify(data)
   })
 }
+
+// function get(path) {
+//   return window.fetch(path, {
+
+
+
+
+
+
+//   })
+  
+// }
