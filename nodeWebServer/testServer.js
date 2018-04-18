@@ -17,11 +17,11 @@ con.connect(function(err) {
 		console.log(result);
 	});
 });
-
+/*
 http = require('http');
 
 http.createServer(function (req, res) {
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write('<h1>HI</h1>');
 	res.end('Hello Universe! This is the CS320 project for team Code4Food!');
-}).listen(8080);
+}).listen(8080);*/
