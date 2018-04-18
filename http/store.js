@@ -21,6 +21,13 @@ module.exports = {
 	con.connect(function(err) {
 		if (err) throw err;
 		con.query("UPDATE Device SET device_name=? WHERE device_id=?;", [dName, dID])
+		con.query("SELECT * FROM Device", function (err, result, fields) {
+		if (err) throw err;
+			console.log("\n");
+			console.log("##### Hi I'm the node server, here is the data from the database");
+			console.log("\n");
+			console.log(result);
+		});
 	});
 
     return Promise.resolve()
