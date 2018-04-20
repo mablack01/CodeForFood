@@ -1,8 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+const express = require('express')
+const bodyParser = require('body-parser')
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+const store = require('./store')
+
+const app = express()
+app.use(express.static('public'))
+app.use(bodyParser.json())
+app.post('/RenameDevice', (req, res) => {
+  store
+    .createUser({
+      deviceName: req.body.deviceName,
+      deviceID: req.body.deviceID
+    })
+    .then(() => res.sendStatus(200))
+})
+
+app.listen(7554, () => {
+  console.log('Server running on http://localhost:7554')
+})

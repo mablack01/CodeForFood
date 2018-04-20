@@ -8,10 +8,10 @@ CreateDevice.addEventListener('submit', (e) => {
 function post(path, data){
 	return fetch(path, {
 		method: 'POST',
-		headers: {
+		/*headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
-		},
+		},*/
 		body: JSON.stringify(data)
 	})
 }
