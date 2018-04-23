@@ -1,0 +1,6 @@
+# Ignores node_module folder and the package-lock.json matter where they are
+*/node_modules/*
+*/package-lock.json
+
+# Ignores .swp files in the current directory. Swap files are used by text editors when a file is open
+*.swp

@@ -17,14 +17,3 @@ function post (path, data) {
   })
 }
 
-// function get(path) {
-//   return window.fetch(path, {
-
-
-
-
-
-
-//   })
-  
-// }
