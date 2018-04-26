@@ -14,7 +14,11 @@ con.connect(function(err) {
 	con.query("SELECT * FROM Device", function (err, result, fields) {
 		if (err) throw err;
 		console.log("\n");
+<<<<<<< HEAD:testing/testMySQLServer.js
 		console.log("##### Hi I'm the node server, here is the data from the database:"); 
+=======
+		console.log("##### Hi I'm the node server, here is the data from the database:");
+>>>>>>> origin/khangbui:testing/testMySQLServer.js
 		console.log("\n");
 		console.log(result);
 	});
