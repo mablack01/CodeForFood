@@ -31,22 +31,31 @@ app.post('/login', function(req, res) {
 
 
 		var con = dbconnect.createConnection();
+
+
+		
+
 		
 		con.query("SELECT user_name, user_password, user_ID FROM User WHERE user_name=?", [username], function(error, result, field){
 				if (error) throw error;
-				if (result.length !== 1){
-					res.sendStatus(401);
+				if (result.length > 1){
+					res.status(401).redirect('/');
 				}
-				if (result[0].user_password === password){
+
+				else if (result.length === 0){
+					res.status(401).redirect('/');
+				}
+				
+				else if (result[0].user_password === password){
 					userID = result[0].user_ID;
 					res.redirect('/home');
 				}
 				else{
-					res.status(500).send('wrong pass');
-					res.redirect('/');
+					res.redirect('/error');
 				}
 
 		})
+
 
 })
 
@@ -55,6 +64,10 @@ app.post('/logout', function(req, res){
 	res.redirect('/');
 })
 
+app.get('/error', function(req, res){
+	//res.render('error');
+	res.redirect('/');
+})
 		
 
 
