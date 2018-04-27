@@ -1,4 +1,6 @@
 # Ignores node_module folder and the package-lock.json matter where they are
+node_modules/*
+package-lock.json
 */node_modules/*
 */package-lock.json
 
@@ -6,6 +8,7 @@
 *.swp
 
 # Ignores the data files (both the beautified and non beautified versions) for those of you who have them
+/datafiles/*
 umass-export-full.json
 full-data-beautified.json
 */umass-export-full.json
