@@ -59,7 +59,7 @@ module.exports = {
 		})
 
 	})
->>>>>>> origin/khangbui
+
   }
 }
 
