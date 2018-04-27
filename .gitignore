@@ -4,3 +4,9 @@
 
 # Ignores .swp files in the current directory. Swap files are used by text editors when a file is open
 *.swp
+
+# Ignores the data files (both the beautified and non beautified versions) for those of you who have them
+umass-export-full.json
+full-data-beautified.json
+*/umass-export-full.json
+*/full-data-beautified.json
