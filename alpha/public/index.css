@@ -1,0 +1,15 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: blue;
+    margin-left: 20px;
+}
+
+.box{
+	background-color: green;
+	width = 200px;
+	margin: auto;
+	color: red;
+}
