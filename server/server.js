@@ -1,14 +1,53 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const dbconnect = require('./dbconnect.js')
+const flash = require('express-flash')
+const session = require('express-session');
+const cookieParser = require('cookie-parser')
 
 
 const app = express()
 app.set('view engine', 'ejs');
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+
+
+
+app.use(session({
+	key: 'user_sid',
+	secret: 'code4food',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		expires: 600000 
+	}
+}));
+
+app.use(function(req, res, next){
+	if (!req.session.user){
+		res.clearCookie('user_sid');
+	}
+	next();
+})
+
+app.use(flash());
+
+var requireLogin = function(req, res, next){
+	if (req.session && req.session.user){
+		return next();
+	}
+	else {
+		var err = new Error('You must be logged in to view');
+		err.status =401;
+		res.redirect('/');
+	}
+};
+
+
+
+
 
 var userID;
 
@@ -16,10 +55,12 @@ app.get('/', function(req,res){
 	res.render('index');
 })
 
-app.get('/home', function(req, res){
+app.get('/home',requireLogin, function(req, res){
 	res.render('home');
 
+
 })
+
 
 app.post('/login', function(req, res) {
 	
@@ -36,6 +77,7 @@ app.post('/login', function(req, res) {
 		con.query("SELECT user_name, user_password, user_ID FROM User WHERE user_name=?", [username], function(error, result, field){
 				if (error) throw error;
 				if (result.length > 1){
+					req.flash("error");
 					res.status(401).redirect('/');
 				}
 
@@ -45,10 +87,12 @@ app.post('/login', function(req, res) {
 				
 				else if (result[0].user_password === password){
 					userID = result[0].user_ID;
+					req.session.user = username;
 					res.redirect('/home');
 				}
 				else{
-					res.redirect('/error');
+					req.flash("error");
+					res.redirect('/');
 				}
 
 		})
@@ -56,14 +100,28 @@ app.post('/login', function(req, res) {
 
 })
 
+
 app.post('/logout', function(req, res){
-	user_ID = null;
-	res.redirect('/');
+	if (req.session){
+		req.session.destroy(function(err){
+			if (err) {
+				return next(err);
+			} else {
+				return res.redirect('/');
+			}
+		});
+	}
+
 })
 
 app.get('/error', function(req, res){
 	//res.render('error');
 	res.redirect('/');
+})
+
+
+app.get('/viewDevie', function(req,res){
+
 })
 		
 
