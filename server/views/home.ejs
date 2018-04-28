@@ -1,12 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Code4Food</title>
+	<title>Code4Food</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="home.css">
 </head>
 <body>
 	<h1> This is the home page - sky was here</h1>
+			<!-- Navigation -->
+<!--     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="#">Start Bootstrap</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Home
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">About</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Services</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Contact</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav> -->
+
+		<!-- Page Content -->
+	 
+<!-- 	<div class="slidecontainer">
+		<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+	</div> -->
+<div class="row">
+	<div class="slidecontainer">
+		<input type="range" class="slider" name="weight" id="range_weight" value="50" min="0" max="100" step ="10" oninput="range_weight_disp.value = range_weight.value">
+	</div>
+	<output id="range_weight_disp"></output>
+	<input type="number" name="amountInput" min="0" max="100" value="50" oninput="range_weight_disp.value = range_weight.value">
+</div>
+
+<!-- Slider 2 is the better one it has the ability to input from a form -->
+
+<div class="row">
+		<form>
+		<input type="range" class="slider2" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+		<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+	</form>
+</div>
+
+
 
 	<form action="/logout" name="Logout" method="post" >
-    	<input type="Submit" value="Logout">
-  </form>
+		<input type="Submit" value="Logout">
+	</form>
 </body>

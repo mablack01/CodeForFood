@@ -18,7 +18,11 @@ con.connect(function(err) {
 		console.log("##### Hi I'm the node server, here is the data from the database:"); 
 =======
 		console.log("##### Hi I'm the node server, here is the data from the database:");
+<<<<<<< HEAD
 >>>>>>> origin/khangbui:testing/testMySQLServer.js
+=======
+>>>>>>> 451755181dad0012543ededc25987186d430ad2f:testing/testMySQLServer.js
+>>>>>>> origin/master
 		console.log("\n");
 		console.log(result);
 	});

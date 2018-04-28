@@ -5,9 +5,10 @@ body {
 h1 {
     color: blue;
     margin-left: 20px;
+    background-color: lightblue;
 }
 
-.box{
+.Login{
 	background-color: green;
 	width = 200px;
 	margin: auto;
