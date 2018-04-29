@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+app.use(express.static(__dirname + '/views'));
 
 
 app.use(session({
@@ -56,8 +57,24 @@ app.get('/', function(req,res){
 })
 
 app.get('/home',requireLogin, function(req, res){
-	res.render('home');
+	var User ;
+	var con = dbconnect.createConnection();
 
+	con.query("SELECT user_name, user_password, user_ID FROM User WHERE user_id=?", [userID], function(error, result, field){
+		if (error) throw error;
+		User = [
+			{
+				name: result[0].user_name,
+				pwd: result[0].user_password
+			}
+
+
+		];
+
+		res.render('home', {user: User});
+
+	});
+	
 
 })
 
@@ -101,7 +118,7 @@ app.post('/login', function(req, res) {
 })
 
 
-app.post('/logout', function(req, res){
+app.get('/logout', function(req, res){
 	if (req.session){
 		req.session.destroy(function(err){
 			if (err) {
@@ -120,8 +137,8 @@ app.get('/error', function(req, res){
 })
 
 
-app.get('/viewDevie', function(req,res){
-
+app.get('/settings', function(req,res){
+	res.render('settings');
 })
 		
 

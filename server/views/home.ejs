@@ -1,12 +1,147 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <head>
   <title>Code4Food</title>
+  <script>
+  	function listTab(evt, name) {
+	    var i, tabcontent, tablinks;
+	    // Get all elements with class="tabcontent" and hide them
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    // Get all elements with class="tablinks" and remove the class "active"
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    // Show the current tab, and add an "active" class to the button that opened the tab
+	    document.getElementById(name).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+  </script>
 </head>
+<style>
+:root {
+	--color: #68d8cd;
+	--color-dark: #60c4ba;
+	--color-bg: #f9feff;
+}
+body {
+	background-color: var(--color-bg);
+}
+.box {
+        background-color: var(--color);
+        text-align: center;
+        text-decoration: none;
+}
+#top{
+  width: 100%;
+  margin: 0 auto; 
+  
+}
+.boxbutton {
+  display: block;
+  color: black;
+  text-align: center
+  padding: 16px;
+  text-decoration: none;
+}
+.boxbutton:hover {
+  background-color: var(--color-dark);
+}
+#list {
+  overflow-y: scroll;
+  background-color: #e0e0e0;
+  height: 600px;
+  border-bottom-left-radius: 8px;
+}
+#content {
+  background-color: #e0e0e0;
+  height: 600px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+#main {
+	margin: 0px;
+}
+.butt {
+	background-color: var(--color);
+}
+.butt:hover {
+	background-color: var(--color-dark);
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #b7b7b7; 
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color);
+    border-radius: 5px;
+    border: 2px solid #7777777;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark); 
+}
+  
+</style>
 <body>
-	<h1> This is the home page</h1>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default">
+	  		<div class="container-fluid">
+	    		<div class="navbar-header">
+	      			<a class="navbar-brand" href="#">Code4Food</a>
+	    		</div>
+	    		<ul class="nav navbar-nav">
+	      			<li class="active"><a href="/home">Home</a></li>
+	      			<li><a href="/settings">Settings</a></li>
+	      			<li><a href="/logout">Log out</a></li>
+</ul>
+</div>
+		</nav>
+	  	<div class="btn-group-lg btn-group-toggle" data-toggle="buttons">
+	  		<label class="btn btn-secondary active butt tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'devices')">
+	    		<input type="radio" name="options" id="option1" autocomplete="off">
+	    			Devices
+	  		</label>
+	  		<label class="btn btn-secondary butt tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'alerts')">
+	    		<input type="radio" name="options" id="option2" autocomplete="off">
+	    			Alerts
+	  		</label>
+	  	</div>
+	  	<div id="main" class="row">
+	    	<div id="list" class="col-md-2">
+	      		<div id="devices" class="tabcontent" style="height:250%">
+	        		This is the devices content<br/>
+	        		It scrolls<br/>
+	        		i<br/> <% for(var i = 0; i < user.length; i++){ %>
+	        			<%=	user[i].name %>
 
-	<form action="/logout" name="Logout" method="post" >
-    	<input type="Submit" value="Logout">
-  </form>
+	        		<% } %>
+	        		i<br/>
+	        		i<br/>
+	        		i<br/>
+	        		i<br/>
+	        		i<br/>
+	        		i<br/>
+	      		</div>
+	      		<div id="alerts" class="tabcontent" style="height:200%; display:none;">
+	        		Here's some alert content<br/>
+	        		It's a bit smaller!
+	      		</div>
+	    	</div>
+	  		<div id="content" class="col-md-8">
+	  			<center><h3>%Device Name%</h3></center>
+	    		<p>
+	    			This is<br>
+	    			Some info<br>
+	    			On the<br>
+	    			Device
+	    		</p>
+	    	</div>
+	    </div>
+    </div>
 </body>
