@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const dbconnect = require('./dbconnect.js')
 
 
+
 const app = express()
 app.set('view engine', 'ejs');
 app.use(bodyParser.json())
@@ -16,9 +17,15 @@ app.get('/', function(req,res){
 	res.render('index');
 })
 
+app.use(express.static(__dirname + '/views'));
+
 app.get('/home', function(req, res){
 	res.render('home');
 
+})
+
+app.get('/settings', function(req, res){
+	res.render('settings');
 })
 
 app.post('/login', function(req, res) {
