@@ -3,7 +3,13 @@ body {
 }
 
 .slidecontainer {
-    width: 200px; /* Width of the outside container */
+    /*Width of the outside container */
+    width: 500px;  
+    background: yellow;
+}
+
+.checkboxlabel {
+    padding-top: 5px;
 }
 
 .slideform {
@@ -12,10 +18,12 @@ body {
 
 .slider {
 	width: 250px;
-	background: white;
+	background: none;
 	border-radius: 0px; /*rounds the corners */
 	height: 10px;
-
+    padding-right: 20px;
+    padding-top: 18px;
+    padding-left: 30px;
 }
 
 .slider::-webkit-slider-thumb { /*-webkit means that it changes the style for chrome/opera/safari/ie */
