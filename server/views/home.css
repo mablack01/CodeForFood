@@ -48,7 +48,17 @@ body {
 }
 
 .slider2 {
+	width: 250px;
+	background: white;
+	border-radius: 0px; /*rounds the corners */
+	height: 10px;
 
+}
+
+.slider2::-webkit-slider-thumb {
+	background: #0099ff;
+	width: 15px;
+	height: 15px;
 }
 
 .slider2::-moz-range-thumb {

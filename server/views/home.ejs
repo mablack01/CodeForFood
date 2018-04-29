@@ -48,15 +48,29 @@
 	<input type="number" name="amountInput" min="0" max="100" value="50" oninput="range_weight_disp.value = range_weight.value">
 </div>
 
-<!-- Slider 2 is the better one it has the ability to input from a form -->
+<!-- Slider 2 is the better one it has the ability to input from a form and it looks better-->
+<div class="col-6">
+	<div class="row">
+			<form>
+			<input type="range" class="slider2" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+			<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+		</form>
+	</div>
 
-<div class="row">
-		<form>
-		<input type="range" class="slider2" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
-		<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
-	</form>
+	<div class="row">
+			<form>
+			<input type="range" class="slider2" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+			<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+		</form>
+	</div>
+
+	<div class="row">
+			<form>
+			<input type="range" class="slider2" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+			<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+		</form>
+	</div>
 </div>
-
 
 
 	<form action="/logout" name="Logout" method="post" >
