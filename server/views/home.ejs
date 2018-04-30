@@ -1,12 +1,135 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="home.css">
 <head>
   <title>Code4Food</title>
+  <script>
+  	function listTab(evt, name) {
+	    var i, tabcontent, tablinks;
+	    // Get all elements with class="tabcontent" and hide them
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    // Get all elements with class="tablinks" and remove the class "active"
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    // Show the current tab, and add an "active" class to the button that opened the tab
+	    document.getElementById(name).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+
+	//div is the string id of the div
+	function loadList(div) {
+		//TODO: i's will be replaced with ids
+		for (i = 0; i < 15; i++) {
+			if (div == 'devices') {
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'devices\', \'dev'+i+'\')\" data-id=\"dev'+i+'\">Device'+i+'</div>');
+			}
+			else if (div == 'alerts') {
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert'+i+'</div>');
+			}
+			if (div == 'settings') {
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+i+'\')\" data-id=\"set'+i+'\"><var hidden>set'+i+'</var>Device(S)'+i+'</div>');
+			}
+		}
+	}
+	
+	function loadContent(type, id, device) {
+
+		//placeholder if, check if the id exists
+		if (true) {
+			//remove the current content in the content box
+			var cont = document.getElementById("content");
+			while (cont.firstChild) {
+    		cont.removeChild(cont.firstChild);
+			}
+			if (type == 'devices') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Device Content!<br/>Number ' + id + '</div>');
+			}
+			else if (type == 'alerts') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Alert Content!<br/>Number ' + id + '</div>');
+			}
+			else if (type == 'settings') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Settings Content!<br/>Number ' + id + '</div>');
+			}
+			all = document.getElementsByClassName("listElem");
+	    	for (i = 0; i < all.length; i++) {
+	        	all[i].className = all[i].className.replace(" activeListElem", "");
+	        	if (all[i].getAttribute('data-id') == id) {
+	        		all[i].className += " activeListElem";
+	        	}
+	    	}
+		}
+	}
+  </script>
 </head>
 <body>
-	<h1> This is the home page</h1>
-
-	<form action="/logout" name="Logout" method="post" >
-    	<input type="Submit" value="Logout">
-  </form>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default">
+	  		<div class="container-fluid">
+	    		<div class="navbar-header">
+	      			<a class="navbar-brand" href="#">Code4Food</a>
+	    		</div>
+	    		<ul class="nav navbar-nav">
+	      			<li class="active"><a href="/home">Home</a></li>
+	      			<li><a href="/settings">Settings</a></li>
+	      			<li><a href="/logout">Log out</a></li>
+	    		</ul>
+	  		</div>
+		</nav>
+	  	<div class="btn-group-lg btn-group-toggle" data-toggle="buttons">
+	  		<label class="btn btn-secondary active butt tablinks tab" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'devices')">
+	    		<input type="radio" name="options" id="option1" autocomplete="off">
+	    			Devices
+	  		</label>
+	  		<label class="btn btn-secondary butt tab tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'alerts')">
+	    		<input type="radio" name="options" id="option2" autocomplete="off">
+	    			Alerts
+	  		</label>
+	  		<label class="btn btn-secondary butt tab tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'settings')">
+	    		<input type="radio" name="options" id="option2" autocomplete="off">
+	    			Settings
+	  		</label>
+	  	</div>
+	  	<div id="main" class="row">
+	    	<div id="list" class="col-md-2" style="padding: 0px">
+	      		<div id="devices" class="tabcontent">
+	        		<script type="text/javascript">
+	        			loadList('devices');
+	        		</script>
+	      		</div>
+	      		<div id="alerts" class="tabcontent" style="display:none;">
+	        		<script type="text/javascript">
+	        			loadList('alerts');
+	        		</script>
+	      		</div>
+	      		<div id="settings" class="tabcontent" style="display:none;">
+	        		<script type="text/javascript">
+	        			loadList('settings');
+	        		</script>
+	      		</div>
+	    	</div>
+	  		<div id="content" class="col-md-8">
+	  			<script type="text/javascript">
+	  				loadContent('devices', 'content', device);
+	  			</script>
+	  				<%for(let i=0; i<device.length; i++){%>
+	  				<ul>
+	  					<li>Serial Number: <%=device[i].serialNum%></li>
+	  					<li>Company Name: <%=device[i].companyName%></li>
+	  					<li>Model: <%=device[i].fullModel%></li>
+	  					<li>SizeTiB: <%=device[i].totalSizeTiB%></li>
+	  					<li>FreeTiB: <%=device[i].freeSizeTiB%></li>
+	  				</ul>
+	  				<%}%>
+	    	</div>
+	    </div>
+    </div>
 </body>
