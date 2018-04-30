@@ -27,3 +27,27 @@
 .device_title{
 	text-align: left;
 }
+
+.slideform {
+	width:70px;
+}
+
+.slider {
+	width: 250px;
+	background: white;
+	border-radius: 0px; /*rounds the corners */
+	height: 10px;
+
+}
+
+.slider::-webkit-slider-thumb {
+	background: #0099ff;
+	width: 15px;
+	height: 15px;
+}
+
+.slider::-moz-range-thumb {
+	background: #0099ff;
+	width: 15px;
+	height: 15px;
+}

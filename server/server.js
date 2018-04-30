@@ -19,9 +19,40 @@ app.get('/', function(req,res){
 
 app.use(express.static(__dirname + '/views'));
 
-app.get('/home', function(req, res){
-	res.render('home');
+var MongoClient = require('mongodb').MongoClient;
 
+
+app.get('/home', function(req, res){
+	var MongoClient = require('mongodb').MongoClient;
+
+	var serialNum, companyName, fullModel, totalSizeTiB, freeSizeTiB;
+	var deviceInfo;
+
+	// Connect to the db
+	MongoClient.connect("mongodb://localhost:27017/DeviceInfo", function (err, client) {
+    
+    	var db = client.db('DeviceInfo');
+    	db.collection('data', function (err, collection) {
+        	
+
+         	collection.findOne({}, function(err, result) {
+           	 	if(err) throw err; 
+           	 	deviceInfo = [
+           		{
+           			serialNum : result.serialNumberInserv,
+           			companyName : result.system.companyName,
+           			fullModel : result.system.fullModel,
+           			totalSizeTiB : result.capacity.total.sizeTiB,
+           			freeSizeTiB : result.capacity.total.freeTiB
+           		}
+           		];
+           		res.render('home', {device: deviceInfo});
+           		client.close();
+        	});
+        
+    	});
+                
+	});
 })
 
 app.get('/settings', function(req, res){
