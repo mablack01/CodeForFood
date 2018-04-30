@@ -22,54 +22,51 @@
 	    evt.currentTarget.className += " active";
 	}
 
-	function showData(evt, name){
-		var i, data, datalinks;
-		data = document.getElementsByClassName("data");
-
-		for(i=0; i<data.length; i++){
-			data[i].style.display = "none";
-		}
-		datalinks = document.getElementsByClassName("datalinks");
-		for(i=0; i<datalinks.length; i++){
-			datalinks[i].className = datalinks[i].className.replace(" active", "");
-		}
-		document.getElementById(name).style.display = "block";
-	    evt.currentTarget.className += " active";
-
-	}
-
 	//div is the string id of the div
 	function loadList(div) {
+		//TODO: i's will be replaced with ids
 		for (i = 0; i < 15; i++) {
 			if (div == 'devices') {
-				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\">Device' + i + '</div>');
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'devices\', \'dev'+i+'\')\" data-id=\"dev'+i+'\">Device'+i+'</div>');
 			}
 			else if (div == 'alerts') {
-				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\">Alert' + i + '</div>');
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert'+i+'</div>');
 			}
 			if (div == 'settings') {
-				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\">Device(S)' + i + '</div>');
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+i+'\')\" data-id=\"set'+i+'\"><var hidden>set'+i+'</var>Device(S)'+i+'</div>');
 			}
 		}
 	}
+	
 	function loadContent(type, id, device) {
-		if (type == 'devices') {
-			var sn, cn, m, size, free;
-			for(i=0; i<device.length; i++){
-				sn = device[i].serialNum;
-				cn = device[i].companyName;
-				m  = device[i].fullModel;
-				size = device[i].totalSizeTiB;
-				free = device[i].freeSizeTiB;
+
+		//placeholder if, check if the id exists
+		if (true) {
+			//remove the current content in the content box
+			var cont = document.getElementById("content");
+			while (cont.firstChild) {
+    		cont.removeChild(cont.firstChild);
 			}
-			document.getElementById('content').insertAdjacentHTML('beforeend', 
-				'<div>Serial Number: ' + sn  +'<br/> ' + i + '</div>');
+			if (type == 'devices') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Device Content!<br/>Number ' + id + '</div>');
+			}
+			else if (type == 'alerts') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Alert Content!<br/>Number ' + id + '</div>');
+			}
+			else if (type == 'settings') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Settings Content!<br/>Number ' + id + '</div>');
+			}
+			all = document.getElementsByClassName("listElem");
+	    	for (i = 0; i < all.length; i++) {
+	        	all[i].className = all[i].className.replace(" activeListElem", "");
+	        	if (all[i].getAttribute('data-id') == id) {
+	        		all[i].className += " activeListElem";
+	        	}
+	    	}
 		}
-		else if (type == 'alerts') {
-		}
-		else if (type == 'settings') {
-		}
-		
 	}
   </script>
 </head>
