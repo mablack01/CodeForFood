@@ -3,19 +3,42 @@
 <head>
   <meta charset="utf-8">
   <title>Code4Food</title>
+  <style >
+    .form-group {
+        margin-bottom: 15px;
+    }
+    body{
+        text-align: center;
+    }
+    .page-header {
+        padding-bottom: 9px;
+        margin: 40px 0 20px;
+        border-bottom: 1px solid #eee;
+    }
+    head{
+      padding-top: :100px;
+    }
+
+  </style>
 </head>
 <body>
-  <a href="http://localhost:7554/showDatabase"><h1>Here is what the database looks like</h1></a>
-  <div id="database">
+
+
+<h2 class="page-header">Login to check your devices</h2>
+<!-- form -->
+  <form action="/login" class="Login" method="post">
+    <div class="form-group">
+    <label>Username</label>
+    <input type="text" class="form-control" name="username" placeholder="Username">
   </div>
-  <form action="/login" class="Login" method="post" >
-    <h1>Login</h1>
-    <input name= "username" type="text" class="username" placeholder="username">
-    <input name= "password" type="password"  class="password" placeholder="password">
-    <input type="Submit" value="Login">
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
   </form>
 
-  <a href="http://localhost:7554/settings"><h2> Settings</h2></a>
+  <!-- <a href="http://localhost:7554/settings"><h2> Settings</h2></a> -->
   
 </body>
 </html>
