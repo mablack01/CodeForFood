@@ -50,7 +50,16 @@ var requireLogin = function(req, res, next){
 };
 
 
-
+function getByID(id) {
+    if (id.substring(0, 3) == 'dev') {
+      for (var i = 0; i < deviceInfo.length; i++) {
+        if (id.substring(3, id.length) == deviceInfo[i].serialNum) {
+          return deviceInfo[i];
+        }
+      }
+    }
+    return undefined;
+}
 
 
 var userID;
@@ -61,17 +70,17 @@ app.get('/', function(req,res){
 
 
 
-app.get('/home', function(req, res){
+app.get('/home', requireLogin, function(req, res){
 	
 
 	var serialNum, companyName, fullModel, totalSizeTiB, freeSizeTiB;
 	var deviceInfo = new Array();
 
 	// Connect to the db
-	MongoClient.connect(dburl, function (err, client) {
-    
-    	var db = client.db('DeviceInfo');
-    	db.collection('data', function (err, collection) {
+	 MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+      	if (err) { console.log("error in connection to Devicedata")}
+     	var db = client.db('Devicedata');
+      	db.collection('umass_export_25', function (err, collection) {
         	
 
          	collection.find({}).limit(10).toArray(function(err, result) {
@@ -105,37 +114,35 @@ app.post('/login', function(req, res) {
 			password = req.body.password;
 
 
-		var con = dbconnect.createConnection();
 
 
-		
+		MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+      		if (err) { console.log("error in connection to User")}
+     	 	var db = client.db('User');
+      		db.collection('users', function (err, collection) {
+          
 
-		
-		con.query("SELECT user_name, user_password, user_ID FROM User WHERE user_name=?", [username], function(error, result, field){
-				if (error) throw error;
-				if (result.length > 1){
-					req.flash("error");
-					res.status(401).redirect('/');
-				}
+          		collection.findOne({username: username}, function(err, result) {
+              		if(err) throw err;
+              		if (result == null){
+              			res.redirect('/');
+              		}
+              		else if(result.password == password){
+                		userID= result.uid
+                		req.session.user = username;
+                		res.redirect('/home')
+             		} 
+              // Else redirect to login page
+              		else {
+              			res.redirect('/')
+              		}
+              		
+          		}); 
+      		});//closing getCollection 
+      		client.close();            
+  		});//closing connect
 
-				else if (result.length === 0){
-					res.status(401).redirect('/');
-				}
-				
-				else if (result[0].user_password === password){
-					userID = result[0].user_ID;
-					req.session.user = username;
-					res.redirect('/home');
-				}
-				else{
-					req.flash("error");
-					res.redirect('/');
-				}
-
-		})
-
-
-})
+})//closing login 
 
 
 app.get('/logout', function(req, res){
@@ -156,6 +163,73 @@ app.get('/error', function(req, res){
 	res.redirect('/');
 })
 
+
+
+app.post('/viewAlert', function(req, res){
+	var id = req.body.devID;
+	var devID = id.substring(3, id.length);
+	var freeTiB, totalDiskCount, diskState, readMax, readMin, readAvg, writeMax, writeMin,  writeAvg;
+	var deviceInfo, thresholdInfo;
+
+	MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+      		if (err) { console.log("error in connection to User")}
+     	 	var db = client.db('Devicedata');
+      		db.collection('umass_export_25', function (err, collection) {
+          
+      		// get the required info of the deivce
+
+          		collection.findOne({serialNumberInserv: devID}, function(err, result) {
+              		if(err) throw err;
+              		 deviceInfo = [
+              		{
+              			freeTiB : result.capacity.total.freeTiB,
+              			totalDiskCount: result.disks.total.diskCount,
+              			diskState: result.disks.state,
+              			readMax : result.performance.portBandwidthData.read.iopsMax,
+              			readMin: result.performance.portBandwidthData.read.iopsMin,
+              			readAvg: result.performance.portBandwidthData.read.iopsAvg,
+              			writeMax: result.performance.portBandwidthData.write.iopsMax,
+              			writeMin: result.performance.portBandwidthData.write.iopsMin,
+              			writeAvg: result.performance.portBandwidthData.write.iopsAvg
+              		}
+              		]
+
+          		}); 
+      		});//closing getCollection 
+
+      		// get the info of threshold
+      		db.collection('threshold', function (err, collection) {
+          
+
+          		collection.findOne({serialNumberInserv: devID}, function(err, result) {
+              		if(err) throw err;
+              		 thresholInfo = [
+              		{
+              			freeTiB : result.capacity.total.freeTiB,
+              			totalDiskCount: result.disks.total.diskCount,
+              			diskState: result.disks.state,
+              			readMax : result.performance.portBandwidthData.read.iopsMax,
+              			readMin: result.performance.portBandwidthData.read.iopsMin,
+              			readAvg: result.performance.portBandwidthData.read.iopsAvg,
+              			writeMax: result.performance.portBandwidthData.write.iopsMax,
+              			writeMin: result.performance.portBandwidthData.write.iopsMin,
+              			writeAvg: result.performance.portBandwidthData.write.iopsAvg
+              		}
+              		]
+
+          		}); 
+      		});//closing getCollection 
+
+
+             //send them to frontend		
+      		res.render('alert', {device: deviceInfo}, {threshold: thresholdInfo});
+      		client.close();            
+  	});//closing connect
+
+
+
+})
+
 var slide1;
 var slide2;
 var slide3;
@@ -163,7 +237,7 @@ var box1;
 var box2;
 var box3;
 
-app.get('/settings', function(req,res){
+app.get('/settings', requireLogin, function(req,res){
 	
 	var thresholdChange;
 	thresholdChange = [
@@ -182,7 +256,7 @@ app.get('/settings', function(req,res){
 		
 
 
-app.post('/saveSettings', function(req, res) {
+app.post('/saveSettings', requireLogin, function(req, res) {
 	slide1 = req.body.amountRange;
 	slide2 = req.body.amountRange2;
 	slide3 = req.body.amountRange3;

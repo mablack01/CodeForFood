@@ -5,6 +5,7 @@
 <head>
   <title>Code4Food</title>
   <script>
+
   	function listTab(evt, name) {
 	    var i, tabcontent, tablinks;
 	    // Get all elements with class="tabcontent" and hide them
@@ -25,38 +26,63 @@
 	//div is the string id of the div
 	function loadList(div) {
 		//TODO: i's will be replaced with ids
-		for (i = 0; i < 15; i++) {
-			if (div == 'devices') {
-				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'devices\', \''+i+'\')\" data-id=\"dev'+i+'\">Device'+i+'</div>');
-			}
-			else if (div == 'alerts') {
-				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert'+i+'</div>');
-			}
-			if (div == 'settings') {
-				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+i+'\')\" data-id=\"set'+i+'\"><var hidden>set'+i+'</var>Device(S)'+i+'</div>');
+		var dev = <%- JSON.stringify(device)%>;
+		console.log(dev);
+		if (div == 'devices') {
+			for (i = 0; i < dev.length; i++){
+				var key = dev[i].serialNum;
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'devices\', \'dev'+key+'\')\" data-id=\"dev'+key+'\">Device '+key+'</div>');
 			}
 		}
+		else if (div == 'alerts') {
+			document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert '+i+'</div>');
+		}
+		if (div == 'settings') {
+			document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+i+'\')\" data-id=\"set'+i+'\"><var hidden>set'+i+'</var>Device(S) '+i+'</div>');
+		}
 	}
+
+	//used to find the correct device, given the user's list and a single desired ID
+	function getByID(list, id) {
+    	if (id.substring(0, 3) == 'dev') {
+      		for (var i = 0; i < list.length; i++) {
+        		if (id.substring(3, id.length) == list[i].serialNum) {
+          			return list[i];
+        		}
+      		}
+    	}
+    	return undefined;
+  	}
 	
-
-
-
-
 	function loadContent(type, id, device) {
 
-		
 		//placeholder if, check if the id exists
 		if (true) {
-			//remove the current content in the content bo
-			
+			//remove the current content in the content box
 			var cont = document.getElementById("content");
 			while (cont.firstChild) {
     		cont.removeChild(cont.firstChild);
 			}
 			if (type == 'devices') {
+				var devs = <%- JSON.stringify(device)%>;
+				var dev = getByID(devs, id)
+				cont.insertAdjacentHTML('beforeend', `
+					<ul>
+	  					<li>Serial Number: `+dev.serialNum+`</li>
+	  					<li>Company Name: `+dev.companyName+`</li>
+	  					<li>Model: `+dev.fullModel+`</li>
+	  					<li>SizeTiB: `+dev.totalSizeTiB+`</li>
+	  					<li>FreeTiB: `+dev.freeSizeTiB+`</li>
+	  				</ul>
 
-				cont.insertAdjacentHTML('beforeend', 
-					'<div>Device Info <br/>Serial Number: <%=device[0].serialNum%> <br/>Number ' + id + '</div>');
+	  				<form action="/viewAlert" method="post">
+	  					<input type="hidden" name="devID" id="devID" value="`+id+`">
+	  					<button type="submit"> View Alert </button></br>
+	  				</form>
+
+	  				
+
+	  				`);
 			}
 			else if (type == 'alerts') {
 				cont.insertAdjacentHTML('beforeend', 
@@ -86,7 +112,6 @@
 	    		</div>
 	    		<ul class="nav navbar-nav">
 	      			<li class="active"><a href="/home">Home</a></li>
-	      			<li><a href="/settings">Settings</a></li>
 	      			<li><a href="/logout">Log out</a></li>
 	    		</ul>
 	  		</div>
@@ -109,7 +134,6 @@
 	    	<div id="list" class="col-md-2" style="padding: 0px">
 	      		<div id="devices" class="tabcontent">
 	        		<script type="text/javascript">
-
 	        			loadList('devices');
 	        		</script>
 	      		</div>
@@ -125,22 +149,7 @@
 	      		</div>
 	    	</div>
 	  		<div id="content" class="col-md-8">
-	  			<script type="text/javascript"> 
-	  				var device = <%= device%>;
-	       
-	  				loadContent('devices', 'content', device);
-	  			</script>
-	  				<%for(let i=0; i<device.length; i++){%>
-	  				<ul>
-	  					<li>Serial Number: <%=device[i].serialNum%></li>
-	  					<li>Company Name: <%=device[i].companyName%></li>
-	  					<li>Model: <%=device[i].fullModel%></li>
-	  					<li>SizeTiB: <%=device[i].totalSizeTiB%></li>
-	  					<li>FreeTiB: <%=device[i].freeSizeTiB%></li>
-	  				</ul>
-	  				<%}%>
-
-
+	  			Placeholder
 	    	</div>
 	    </div>
     </div>
