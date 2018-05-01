@@ -35,6 +35,9 @@ app.use(function(req, res, next){
 
 app.use(flash());
 
+var MongoClient = require('mongodb').MongoClient;
+var dburl = "mongodb://localhost:27017/Device";
+
 var requireLogin = function(req, res, next){
 	if (req.session && req.session.user){
 		return next();
@@ -56,27 +59,44 @@ app.get('/', function(req,res){
 	res.render('index');
 })
 
-app.get('/home',requireLogin, function(req, res){
-	var User ;
-	var con = dbconnect.createConnection();
-
-	con.query("SELECT user_name, user_password, user_ID FROM User WHERE user_id=?", [userID], function(error, result, field){
-		if (error) throw error;
-		User = [
-			{
-				name: result[0].user_name,
-				pwd: result[0].user_password
-			}
 
 
-		];
-
-		res.render('home', {user: User});
-
-	});
+app.get('/home', function(req, res){
 	
 
+	var serialNum, companyName, fullModel, totalSizeTiB, freeSizeTiB;
+	var deviceInfo = new Array();
+
+	// Connect to the db
+	MongoClient.connect(dburl, function (err, client) {
+    
+    	var db = client.db('DeviceInfo');
+    	db.collection('data', function (err, collection) {
+        	
+
+         	collection.find({}).limit(10).toArray(function(err, result) {
+           	 	if(err) throw err; 
+
+           	 	for (let i = 0; i < result.length; i++){
+           	 		var device = {
+           	 			serialNum : result[i].serialNumberInserv,
+           				companyName :result[i].system.companyName,
+           				fullModel : result[i].system.fullModel,
+           				totalSizeTiB : result[i].capacity.total.sizeTiB,
+           				freeSizeTiB : result[i].capacity.total.freeTiB
+           	 		}
+           	 		deviceInfo.push(device);
+           	 	}
+           	 	
+           		res.render('home', {device: deviceInfo});
+           		client.close();
+        	});
+        
+    	});
+                
+	});
 })
+
 
 
 app.post('/login', function(req, res) {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="home.css">
 <head>
   <title>Code4Food</title>
   <script>
@@ -20,74 +21,62 @@
 	    document.getElementById(name).style.display = "block";
 	    evt.currentTarget.className += " active";
 	}
+
+	//div is the string id of the div
+	function loadList(div) {
+		//TODO: i's will be replaced with ids
+		for (i = 0; i < 15; i++) {
+			if (div == 'devices') {
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'devices\', \''+i+'\')\" data-id=\"dev'+i+'\">Device'+i+'</div>');
+			}
+			else if (div == 'alerts') {
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert'+i+'</div>');
+			}
+			if (div == 'settings') {
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+i+'\')\" data-id=\"set'+i+'\"><var hidden>set'+i+'</var>Device(S)'+i+'</div>');
+			}
+		}
+	}
+	
+
+
+
+
+	function loadContent(type, id) {
+
+		
+		//placeholder if, check if the id exists
+		if (true) {
+			//remove the current content in the content bo
+			
+			var cont = document.getElementById("content");
+			while (cont.firstChild) {
+    		cont.removeChild(cont.firstChild);
+			}
+			if (type == 'devices') {
+
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Device Info <br/>Serial Number: <%=device[0].serialNum%> <br/>Number ' + id + '</div>');
+			}
+			else if (type == 'alerts') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Alert Content!<br/>Number ' + id + '</div>');
+			}
+			else if (type == 'settings') {
+				cont.insertAdjacentHTML('beforeend', 
+					'<div>Content!<br/>Settings Content!<br/>Number ' + id + '</div>');
+			}
+			all = document.getElementsByClassName("listElem");
+	    	for (i = 0; i < all.length; i++) {
+	        	all[i].className = all[i].className.replace(" activeListElem", "");
+	        	if (all[i].getAttribute('data-id') == id) {
+	        		all[i].className += " activeListElem";
+	        	}
+	    	}
+		}
+	}
   </script>
 </head>
-<style>
-:root {
-	--color: #68d8cd;
-	--color-dark: #60c4ba;
-	--color-bg: #f9feff;
-}
-body {
-	background-color: var(--color-bg);
-}
-.box {
-        background-color: var(--color);
-        text-align: center;
-        text-decoration: none;
-}
-#top{
-  width: 100%;
-  margin: 0 auto; 
-  
-}
-.boxbutton {
-  display: block;
-  color: black;
-  text-align: center
-  padding: 16px;
-  text-decoration: none;
-}
-.boxbutton:hover {
-  background-color: var(--color-dark);
-}
-#list {
-  overflow-y: scroll;
-  background-color: #e0e0e0;
-  height: 600px;
-  border-bottom-left-radius: 8px;
-}
-#content {
-  background-color: #e0e0e0;
-  height: 600px;
-  border-bottom-right-radius: 8px;
-  border-top-right-radius: 8px;
-}
-#main {
-	margin: 0px;
-}
-.butt {
-	background-color: var(--color);
-}
-.butt:hover {
-	background-color: var(--color-dark);
-}
-::-webkit-scrollbar {
-    width: 12px;
-}
-::-webkit-scrollbar-track {
-    background: #b7b7b7; 
-}
-::-webkit-scrollbar-thumb {
-    background: var(--color);
-    border-radius: 5px;
-    border: 2px solid #7777777;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--color-dark); 
-}
-  
-</style>
 <body>
 	<div class="container-fluid">
 		<nav class="navbar navbar-default">
@@ -99,48 +88,56 @@ body {
 	      			<li class="active"><a href="/home">Home</a></li>
 	      			<li><a href="/settings">Settings</a></li>
 	      			<li><a href="/logout">Log out</a></li>
-</ul>
-</div>
+	    		</ul>
+	  		</div>
 		</nav>
 	  	<div class="btn-group-lg btn-group-toggle" data-toggle="buttons">
-	  		<label class="btn btn-secondary active butt tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'devices')">
+	  		<label class="btn btn-secondary active butt tablinks tab" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'devices')">
 	    		<input type="radio" name="options" id="option1" autocomplete="off">
 	    			Devices
 	  		</label>
-	  		<label class="btn btn-secondary butt tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'alerts')">
+	  		<label class="btn btn-secondary butt tab tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'alerts')">
 	    		<input type="radio" name="options" id="option2" autocomplete="off">
 	    			Alerts
 	  		</label>
+	  		<label class="btn btn-secondary butt tab tablinks" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" onclick="listTab(event, 'settings')">
+	    		<input type="radio" name="options" id="option2" autocomplete="off">
+	    			Settings
+	  		</label>
 	  	</div>
 	  	<div id="main" class="row">
-	    	<div id="list" class="col-md-2">
-	      		<div id="devices" class="tabcontent" style="height:250%">
-	        		This is the devices content<br/>
-	        		It scrolls<br/>
-	        		i<br/> <% for(var i = 0; i < user.length; i++){ %>
-	        			<%=	user[i].name %>
-
-	        		<% } %>
-	        		i<br/>
-	        		i<br/>
-	        		i<br/>
-	        		i<br/>
-	        		i<br/>
-	        		i<br/>
+	    	<div id="list" class="col-md-2" style="padding: 0px">
+	      		<div id="devices" class="tabcontent">
+	        		<script type="text/javascript">
+	        			loadList('devices');
+	        		</script>
 	      		</div>
-	      		<div id="alerts" class="tabcontent" style="height:200%; display:none;">
-	        		Here's some alert content<br/>
-	        		It's a bit smaller!
+	      		<div id="alerts" class="tabcontent" style="display:none;">
+	        		<script type="text/javascript">
+	        			loadList('alerts');
+	        		</script>
+	      		</div>
+	      		<div id="settings" class="tabcontent" style="display:none;">
+	        		<script type="text/javascript">
+	        			loadList('settings');
+	        		</script>
 	      		</div>
 	    	</div>
 	  		<div id="content" class="col-md-8">
-	  			<center><h3>%Device Name%</h3></center>
-	    		<p>
-	    			This is<br>
-	    			Some info<br>
-	    			On the<br>
-	    			Device
-	    		</p>
+	  			<script type="text/javascript">
+	  				loadContent('devices', 'content');
+	  			</script>
+	  				<%for(let i=0; i<device.length; i++){%>
+	  				<ul>
+	  					<li>Serial Number: <%=device[i].serialNum%></li>
+	  					<li>Company Name: <%=device[i].companyName%></li>
+	  					<li>Model: <%=device[i].fullModel%></li>
+	  					<li>SizeTiB: <%=device[i].totalSizeTiB%></li>
+	  					<li>FreeTiB: <%=device[i].freeSizeTiB%></li>
+	  				</ul>
+	  				<%}%>
+
+
 	    	</div>
 	    </div>
     </div>
