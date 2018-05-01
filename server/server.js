@@ -22,22 +22,6 @@ app.get('/', function(req,res){
 app.use(express.static(__dirname + '/views'));
 
 const MongoClient = require('mongodb').MongoClient;
-const db = require('./mongoconnect.js');//require db.js
-
-
-// This function connects to the database named DeviceData hosted at MongoDB Atlas
-db.openMongoConnection(function(error)
-{
-    if(error){
-        console.log(error);
-        console.log("cannot make the connection with database");
-    }
-    else{
-    	// To access any collection you can use the method. 
-    	// db.getCollection(collectionName)
-    	console.log("connected");
-    }
-});
 
 
 
@@ -48,14 +32,17 @@ app.get('/home', function(req, res){
 	var deviceInfo;
 
 	// Connect to the db
-	MongoClient.connect("mongodb://localhost:27017/DeviceInfo", function (err, client) {
-    
-    	var db = client.db('DeviceInfo');
-    	db.getCollection('umass_export_25', function (err, collection) {
+	MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+    if (err) { console.log("error in connection to Devicedata")}
+    	var db = client.db('Devicedata');
+    	db.collection('umass_export_25', function (err, collection) {
         	
 
-         	collection.findOne({}, function(err, result) {
+         	collection.findOne({uid:userID}, function(err, result) {
+            // Set up redirect to login
            	 	if(err) throw err; 
+              console.log("Result");
+              console.log(result);
            	 	deviceInfo = [
            		{
            			serialNum : result.serialNumberInserv,
@@ -77,47 +64,35 @@ app.get('/home', function(req, res){
 
 
 
-
-
-
 app.get('/settings', function(req, res){
 	res.render('settings');
 })
 
-// app.post('/login', function(req, res) {
+app.post('/login', function(req, res) {
 	
-// 		var	username = req.body.username,
-// 			password = req.body.password;
+		var	username = req.body.username;
+		var password = req.body.password;
 
+    // Connect to the db
+  MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+      if (err) { console.log("error in connection to User")}
+      var db = client.db('User');
+      db.collection('users', function (err, collection) {
+          
 
-// 		var con = dbconnect.createConnection();
-
-
-		
-
-		
-// 		con.query("SELECT user_name, user_password, user_ID FROM User WHERE user_name=?", [username], function(error, result, field){
-// 				if (error) throw error;
-// 				if (result.length > 1){
-// 					res.status(401).redirect('/');
-// 				}
-
-// 				else if (result.length === 0){
-// 					res.status(401).redirect('/');
-// 				}
-				
-// 				else if (result[0].user_password === password){
-// 					userID = result[0].user_ID;
-// 					res.redirect('/home');
-// 				}
-// 				else{
-// 					res.redirect('/error');
-// 				}
-
-// 		})
-
-
-// })
+          collection.findOne({username: username}, function(err, result) {
+              if(err) render('error');
+              if(result.password == password){
+                userID= result.uid
+                res.redirect('/home')
+              } 
+              // Else render Passowrd not matching
+              res.render('/home')
+              client.close();
+          }); 
+      });//closing getCollection             
+  });//closing connect
+})//closing login 
 
 app.post('/logout', function(req, res){
 	user_ID = null;
