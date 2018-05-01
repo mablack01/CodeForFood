@@ -42,7 +42,7 @@
 
 
 
-	function loadContent(type, id) {
+	function loadContent(type, id, device) {
 
 		
 		//placeholder if, check if the id exists
@@ -109,6 +109,7 @@
 	    	<div id="list" class="col-md-2" style="padding: 0px">
 	      		<div id="devices" class="tabcontent">
 	        		<script type="text/javascript">
+
 	        			loadList('devices');
 	        		</script>
 	      		</div>
@@ -124,8 +125,10 @@
 	      		</div>
 	    	</div>
 	  		<div id="content" class="col-md-8">
-	  			<script type="text/javascript">
-	  				loadContent('devices', 'content');
+	  			<script type="text/javascript"> 
+	  				var device = <%= device%>;
+	       
+	  				loadContent('devices', 'content', device);
 	  			</script>
 	  				<%for(let i=0; i<device.length; i++){%>
 	  				<ul>

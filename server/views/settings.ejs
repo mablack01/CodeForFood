@@ -1,76 +1,53 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="settings.css">
-	</head>
-	<body>
+<head>
+	<title>Code4Food</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="home.css">
+</head>
+<body>
+	<h1> This is the home page - sky was here</h1>
+
+<div class="col-6">
+	<form action="/saveSettings" method="post" class="slidecontainer">
+	<% for(var i = 0; i < threshold.length; i++) { %>
+		
+	
+		<!-- when you refresh the boxes are empty becuase it is looking for threshold array but theres noting there, it will be fixed when we have a database -->
 		<div class="row">
-			<div class="col-sm-1">
-				<div class="blank"></div>
-			</div>
-			<div class="col-sm-3"> 
-				<h2 class="device_title">Device</h2>
-			</div>
-			<div class="col-sm-7">
-				<h2 class ="alert_title">Alerts</h2>
-			</div>
+				
+				
+				<input type="range" class="slider" name="amountRange" min="0" max="100" value="<%= threshold[i].s1 %>" oninput="this.form.amountInput.value=this.value" />
+				<input type="number" class="slideform" name="amountInput" min="0" max="100" value="<%= threshold[i].s1 %>" oninput="this.form.amountRange.value=this.value" />
+				<input type="checkbox" id="alertToggle1" name="alertToggle1" value="true">
+				<label for="alertToggle1" class="checkboxlabel">Toggle Alert</label>
+				<!-- label for= will have the same id as the checkbox you are connecting it to -->
 		</div>
 
 		<div class="row">
-
-			<div class="col-sm-1">
-				<div class="blank"></div>
-			</div>
-
-			<div class="col-lg-2">
-				<div class="row devicetab">
-					<div class="device" onclick="displayFunction()">Device 1</div>
-				</div>
-				<div class="row devicetab">
-					<div class="device" onclick="displayFunction()">Device 2</div>
-				</div>
-				<div class="row devicetab">
-					<div class="device" onclick="displayFunction()">Device 3</div>
-				</div>
-				<div class="row devicetab">
-					<div class="device" onclick="displayFunction()">Device 4</div>
-				</div>
-			</div>
-
-
-			<div class="col-lg-6">
-				<div id=d_id> 
-					<div class="row alert">
-						<input type="range" name="weight" id="range_weight" value="50" min="0" max="100" step="10" oninput="range_weight_disp.value = range_weight.value">
-					</div>
-				</div>
-				<output id="range_weight_disp"></output>
-
-				<div id=d_id> 
-					<div class="row alert">
-						<input type="range" name="weight" id="range_weight" value="50" min="0" max="100" step="10" oninput="range_weight_disp.value = range_weight.value">
-					</div>
-				</div>
-				<output id="range_weight_disp"></output>
-
-				<div id=d_id> 
-					<div class="row alert">
-						<input type="range" name="weight" id="range_weight" value="50" min="0" max="100" step="10" oninput="range_weight_disp.value = range_weight.value">
-					</div>
-				</div>
-				<output id="range_weight_disp"></output>
-			</div>
-			<div class="col-sm-3">
-				<div class="blank"></div>
-			</div>
+				<input type="range" class="slider" name="amountRange2" min="0" max="100" value="<%= threshold[i].s2 %>"oninput="this.form.amountInput2.value=this.value" />
+				<input type="number" class="slideform" name="amountInput2" min="0" max="100" value="<%= threshold[i].s2 %>" oninput="this.form.amountRange2.value=this.value" />
+				<input type="checkbox" id="alertToggle2" name="alertToggle2" value="true">
+				<label for="alertToggle2" class="checkboxlabel">Toggle Alert</label>
 		</div>
-		<script>
-			function displayFunction(){
-				document.getElementById("d_id").style.display = "block"
-			}
-		</script>
+
+		<div class="row">
+				<input type="range" class="slider" name="amountRange3" min="0" max="100" value="<%= threshold[i].s3 %>" oninput="this.form.amountInput3.value=this.value" />
+				<input type="number" class="slideform" name="amountInput3" min="0" max="100" value="<%= threshold[i].s3 %>" oninput="this.form.amountRange3.value=this.value" />
+				<input type="checkbox" id="alertToggle3" name="alertToggle3" value="true">
+				<label for="alertToggle3" class="checkboxlabel">Toggle Alert</label>
+		</div>
+		<% } %>
+
+		<button type="submit">Save Settings</button>
+	</form>
 
 
-	</body>
-</html>
+
+</div>
+
+
+	<form action="/logout" name="Logout" method="post" >
+		<input type="Submit" value="Logout">
+	</form>
+</body>

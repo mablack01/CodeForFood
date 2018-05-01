@@ -156,32 +156,55 @@ app.get('/error', function(req, res){
 	res.redirect('/');
 })
 
+var slide1;
+var slide2;
+var slide3;
+var box1;
+var box2;
+var box3;
 
 app.get('/settings', function(req,res){
-	res.render('settings');
+	
+	var thresholdChange;
+	thresholdChange = [
+		{
+			s1: slide1,
+			s2: slide2,
+			s3: slide3,
+			b1: box1,
+			b2: box2,
+			b3: box3
+		}
+	];
+	res.render('settings', {threshold: thresholdChange});
+	
 })
 		
 
 
-app.get('/showDatabase', function (req, res) {
-	var mysql = require('mysql');
-	var con = mysql.createConnection({
-		        host: "localhost",
-		        user: "root",
-		        password: "toor",
-		        database: "Devices"
-	});
-	var response;
-	con.connect(function(err) {
-		        if (err) throw err;
-		        con.query("SELECT * FROM Device", function (err, result, fields) {
-		            if (err) throw err;
-		            console.log("##### Hi I'm the request");
-				console.log(result);
-				response = result;
-				res.json(result);
-				        });
-	});
+app.post('/saveSettings', function(req, res) {
+	slide1 = req.body.amountRange;
+	slide2 = req.body.amountRange2;
+	slide3 = req.body.amountRange3;
+	box1 = req.body.alertToggle1;
+	box2 = req.body.alertToggle2;
+	box3 = req.body.alertToggle3;
+	if (box1 === undefined) {box1 = false}
+	else {box1 = true}
+	if (box2 === undefined) {box2 = false}
+	else {box2 = true}
+	if (box3 === undefined) {box3 = false}
+	else {box3 = true}
+
+	console.log(slide1);
+	console.log(slide2);
+	console.log(slide3);
+	console.log(box1);
+	console.log(box2);
+	console.log(box3);
+	res.redirect('/settings');
+
+
 })
 
 app.listen(7554, () => {

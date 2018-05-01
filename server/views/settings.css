@@ -1,29 +1,39 @@
-#d_id{
-	display: none;
+body {
+		background-color: lightblue;
 }
 
-.device{
-	background-color: lightblue;
-	border: 2px black;
-	text-align: center;
-	margin-bottom: 2rem;
+.slidecontainer {
+    /*Width of the outside container */
+    width: 500px;  
+    background: yellow;
 }
 
-.devicetab{
-	text-align: right;
-	border: 2px blue;
-	background-color: lightblue;
-	margin-bottom: 1rem;
+.checkboxlabel {
+    padding-top: 5px;
 }
 
-.blank{
-	max-width: 75px;
+.slideform {
+	width:70px;
 }
 
-.alert_title{
-	text-align: left;
+.slider {
+	width: 250px;
+	background: none;
+	border-radius: 0px; /*rounds the corners */
+	height: 10px;
+    padding-right: 20px;
+    padding-top: 18px;
+    padding-left: 30px;
 }
 
-.device_title{
-	text-align: left;
+.slider::-webkit-slider-thumb { /*-webkit means that it changes the style for chrome/opera/safari/ie */
+	background: #0099ff;
+	width: 15px;
+	height: 15px;
+}
+
+.slider::-moz-range-thumb { /* -moz means its for firefox the two should just be the same contents */
+	background: #0099ff; /*light blue slider dot */
+	width: 15px;
+	height: 15px;
 }
