@@ -98,28 +98,36 @@
 			else if (type == 'settings') {
 				var devs = <%- JSON.stringify(device)%>;
 				var dev = getByID(devs, id);
-				var threshs = <%- JSON.stringify(threshold)%>;
-				cont.insertAdjacentHTML('beforeend', `
+				fetch('/viewAlert', {
+    			body: JSON.stringify({devID: id}), // must match 'Content-Type' header
+    			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    			credentials: 'same-origin', // include, same-origin, *omit
+    			headers: {
+      				'user-agent': 'Mozilla/4.0 MDN Example',
+      				'content-type': 'application/json'
+    			},
+    			method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    			mode: 'cors', // no-cors, cors, *same-origin
+    			redirect: 'follow', // manual, *follow, error
+    			referrer: 'no-referrer', // *client, no-referrer
+  				})
+  				.then(res => {
+        			console.log(res.body);
+        			for (var x in res) {
+        				console.log(x)
+        			}
+        			cont.insertAdjacentHTML('beforeend', `
 					<div>
 						Device: `+dev.serialNum+`
 						<div class="col-6">
 						<form action="/saveSettings" method="post" class="slidecontainer">
-							<!-- when you refresh the boxes are empty becuase it is looking for threshold array but theres noting there, it will be fixed when we have a database -->
-							<div class="row">
-				
-								<input type="range" class="slider" name="amountRange" min="0" max="100" value="<%= threshold[i].s1 %>" oninput="this.form.amountInput.value=this.value" />
-								<input type="number" class="slideform" name="amountInput" min="0" max="100" value="<%= threshold[i].s1 %>" oninput="this.form.amountRange.value=this.value" />
-								<input type="checkbox" id="alertToggle1" name="alertToggle1" value="true">
-								<label for="alertToggle1" class="checkboxlabel">Toggle Alert</label>
-								<!-- label for= will have the same id as the checkbox you are connecting it to -->
-							</div>
-							<% } %>
 
 							<button type="submit">Save Settings</button>
 						</form>
 						</div>
 					</div>
 					`);
+    			});
 			}
 			all = document.getElementsByClassName("listElem");
 	    	for (i = 0; i < all.length; i++) {
