@@ -204,15 +204,15 @@ app.post('/viewAlert', requireLogin, function(req, res){
                   if(err) throw err;
                   thresholdInfo = 
                   {
-                    freeTiB : 25,
-                    totalDiskCount: 25,
-                    diskState: 25,
-                    readMax: 25,
-                    readMin: 25,
-                    readAvg: 25,
-                    writeMax: 25,
-                    writeMin: 25,
-                    writeAvg: 25
+                    freeTiB : [25, 'true'],
+                    totalDiskCount: [25, 'true'],
+                    diskState: [25, 'true'],
+                    readMax: [25, 'true'],
+                    readMin: [25, 'true'],
+                    readAvg: [25, 'true'],
+                    writeMax: [25, 'true'],
+                    writeMin: [25, 'true'],
+                    writeAvg: [25, 'true']
                   }
                   if (result) {
                     thresholdInfo = 
@@ -269,15 +269,29 @@ app.post('/editAlert', function(req,res){
 
 
 app.post('/saveSettings', requireLogin, function(req, res) {
-  slide1 = req.body.amountInput0;
-  slide2 = req.body.amountInput1;
-  slide3 = req.body.amountInput2;
-  slide4 = req.body.amountInput3;
-  slide5 = req.body.amountInput4;
-  slide6 = req.body.amountInput5;
-  slide7 = req.body.amountInput6;
-  slide8 = req.body.amountInput7;
-  slide9 = req.body.amountInput8;
+  slide0 = req.body.amountInput0;
+  slide1 = req.body.amountInput1;
+  slide2 = req.body.amountInput2;
+  slide3 = req.body.amountInput3;
+  slide4 = req.body.amountInput4;
+  slide5 = req.body.amountInput5;
+  slide6 = req.body.amountInput6;
+  slide7 = req.body.amountInput7;
+  slide8 = req.body.amountInput8;
+  tog0 = req.body.alertToggle0;
+  tog1 = req.body.alertToggle1;
+  tog2 = req.body.alertToggle2;
+  tog3 = req.body.alertToggle3;
+  tog4 = req.body.alertToggle4;
+  tog5 = req.body.alertToggle5;
+  tog6 = req.body.alertToggle6;
+  tog7 = req.body.alertToggle7;
+  tog8 = req.body.alertToggle8;
+  for (var i = 0; i < 9; i++) {
+    if (this['tog'+i] != 'true')
+      this['tog'+i] = 'false';
+  }
+
 
   var id = req.body.devID;
   var devID = id.substring(3, id.length);
@@ -294,28 +308,28 @@ app.post('/saveSettings', requireLogin, function(req, res) {
                 serialNumberInserv: devID,
               capacity: {
                   total: {
-                      freeTiB: slide1
+                      freeTiB: [slide0, tog0]
                   }
               },
   
               disks: {
                   total: {
-                      diskCountNormal: slide2
+                      diskCountNormal: [slide1, tog1]
                     },
-                    state: slide3
+                    state: [slide2, tog2]
                 },
 
               performance: {
                     portBandwidthData: {
                       read: {
-                          iopsAvg: slide4,
-                          iopsMax: slide5,
-                          iopsMin: slide6
+                          iopsMax: [slide3, tog3],
+                          iopsMin: [slide4, tog4],
+                          iopsAvg: [slide5, tog5]
                       },
                       write: {
-                          iopsAvg: slide7,
-                          iopsMax: slide8,
-                          iopsMin: slide9
+                          iopsMax: [slide6, tog6],
+                          iopsMin: [slide7, tog7],
+                          iopsAvg: [slide8, tog8]
                       }
                   }
               }
