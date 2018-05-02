@@ -45,6 +45,22 @@
 		}
 	}
 
+	function toggleAlert(i, tf) {
+		console.log('setting ' + i + ' to ' + tf)
+		document.getElementById('threshform')['alertToggle'+i].value=tf;
+		document.getElementById('threshSlider'+i).disabled=!tf;
+		document.getElementById('threshBox'+i).disabled=!tf;
+	}
+
+	function submitSettings(num) {
+		console.log('saving changes')
+        for (var i = 0; i < num; i++) {
+        	document.getElementById('threshSlider'+i).disabled=false;
+        	document.getElementById('threshBox'+i).disabled=false;
+        }
+        document.getElementById('threshform').submit();
+	}
+
 	//used to find the correct device, given the user's list and a single desired ID
 	function getByID(list, id) {
     	if (id.substring(0, 3) == 'dev' || id.substring(0, 3) == 'set') {
@@ -115,8 +131,8 @@
         				st = th+`<div style="display: block">
         					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`" value="`+thval[1]+`">
 							<label for="alertToggle`+i+`" class="checkboxlabel">Enable Alert</label>
-							<input type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountInput`+i+`.value=this.value" />
-							<input type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountRange`+i+`.value=this.value" />
+							<input id="threshSlider`+i+`" type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountInput`+i+`.value=this.value" />
+							<input id="threshBox`+i+`" type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountRange`+i+`.value=this.value" />
 						</div>
         				`
         				return st;
@@ -130,11 +146,12 @@
         				slidetml += slider(th, thresh[th], i);
         				i++;
         			}
-        			slidetml += `<div class="butt cornerButt" type="submit" onclick="document.getElementById('threshform').submit();">Save Settings</div>
+        			slidetml += `<div class="butt cornerButt" type="submit" onclick="submitSettings(`+thresh+`)">Save Settings</div>
         			</form>`
         			cont.insertAdjacentHTML('beforeend', slidetml);
     			});
 			}
+			//SETTINGS CONTENT
 			else if (type == 'settings') {
 				fetch('/viewAlert', {
     			body: JSON.stringify({devID: id}), // must match 'Content-Type' header
@@ -157,14 +174,16 @@
         			function slider(th, thval, i) {
         				console.log(thval)
         				var checc = '';
+        				var disabled = 'disabled="true"'
         				if (thval[1] && thval[1] == 'true') {
         					checc = ' checked="true"'
+        					disabled = '';
         				}
         				st = th+`<div style="display: block">
-        					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`"`+checc+` value="`+thval[1]+`" onclick="this.form.alertToggle`+i+`.value=this.checked">
+        					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`"`+checc+` value="`+thval[1]+`" onclick="toggleAlert(`+i+`, this.checked)">
 							<label for="alertToggle`+i+`" class="checkboxlabel">Enable Alert</label>
-							<input type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountInput`+i+`.value=this.value" />
-							<input type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountRange`+i+`.value=this.value" />
+							<input id="threshSlider`+i+`" type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountInput`+i+`.value=this.value" `+disabled+`/>
+							<input id="threshBox`+i+`" type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountRange`+i+`.value=this.value" `+disabled+`/>
 						</div>
         				`
         				return st;
@@ -178,7 +197,7 @@
         				slidetml += slider(th, thresh[th], i);
         				i++;
         			}
-        			slidetml += `<div class="butt cornerButt" type="submit" onclick="document.getElementById('threshform').submit();">Save Settings</div>
+        			slidetml += `<div class="butt cornerButt" type="submit" onclick="submitSettings(`+i+`)">Save Settings</div>
         			</form>`
         			cont.insertAdjacentHTML('beforeend', slidetml);
     			});
