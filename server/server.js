@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const dbconnect = require('./dbconnect.js')
-const flash = require('express-flash')
 const session = require('express-session');
 const cookieParser = require('cookie-parser')
 
@@ -33,10 +32,9 @@ app.use(function(req, res, next){
 	next();
 })
 
-app.use(flash());
 
 var MongoClient = require('mongodb').MongoClient;
-var dburl = "mongodb://localhost:27017/Device";
+var dburl = "mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test";
 
 var requireLogin = function(req, res, next){
 	if (req.session && req.session.user){
@@ -77,7 +75,7 @@ app.get('/home', requireLogin, function(req, res){
 	var deviceInfo = new Array();
 
 	// Connect to the db
-	 MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+	 MongoClient.connect(dburl, function (err, client) {
       	if (err) { console.log("error in connection to Devicedata")}
      	var db = client.db('Devicedata');
       	db.collection('umass_export_25', function (err, collection) {
@@ -116,7 +114,7 @@ app.post('/login', function(req, res) {
 
 
 
-		MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+		MongoClient.connect(dburl, function (err, client) {
       		if (err) { console.log("error in connection to User")}
      	 	var db = client.db('User');
       		db.collection('users', function (err, collection) {
@@ -165,7 +163,7 @@ app.get('/error', function(req, res){
 
 
 
-app.post('/viewAlert', function(req, res){
+app.post('/viewAlert', requireLogin, function(req, res){
 	var id = req.body.devID;
 	var devID = id.substring(3, id.length);
 	var freeTiB, totalDiskCount, diskState, readMax, readMin, readAvg, writeMax, writeMin,  writeAvg;
@@ -181,20 +179,22 @@ app.post('/viewAlert', function(req, res){
           		collection.findOne({serialNumberInserv: devID}, function(err, result) {
               		if(err) throw err;
               		 deviceInfo = [
-              		{
+              			{
               			freeTiB : result.capacity.total.freeTiB,
               			totalDiskCount: result.disks.total.diskCount,
               			diskState: result.disks.state,
-              			readMax : result.performance.portBandwidthData.read.iopsMax,
+              			readMax: result.performance.portBandwidthData.read.iopsMax,
               			readMin: result.performance.portBandwidthData.read.iopsMin,
               			readAvg: result.performance.portBandwidthData.read.iopsAvg,
               			writeMax: result.performance.portBandwidthData.write.iopsMax,
               			writeMin: result.performance.portBandwidthData.write.iopsMin,
               			writeAvg: result.performance.portBandwidthData.write.iopsAvg
-              		}
+              			}
               		]
-
+             
           		}); 
+              		
+
       		});//closing getCollection 
 
       		// get the info of threshold
@@ -203,12 +203,12 @@ app.post('/viewAlert', function(req, res){
 
           		collection.findOne({serialNumberInserv: devID}, function(err, result) {
               		if(err) throw err;
-              		 thresholInfo = [
+              		 thresholdInfo = [
               		{
               			freeTiB : result.capacity.total.freeTiB,
-              			totalDiskCount: result.disks.total.diskCount,
+              			totalDiskCount: result.disks.total.diskCountNormal,
               			diskState: result.disks.state,
-              			readMax : result.performance.portBandwidthData.read.iopsMax,
+              			readMax: result.performance.portBandwidthData.read.iopsMax,
               			readMin: result.performance.portBandwidthData.read.iopsMin,
               			readAvg: result.performance.portBandwidthData.read.iopsAvg,
               			writeMax: result.performance.portBandwidthData.write.iopsMax,
@@ -217,12 +217,14 @@ app.post('/viewAlert', function(req, res){
               		}
               		]
 
+              		res.render('alert',  {device: deviceInfo, threshold:thresholdInfo} );
+
           		}); 
-      		});//closing getCollection 
+      		});
+			
+      				
+             //send them to frontend
 
-
-             //send them to frontend		
-      		res.render('alert', {device: deviceInfo}, {threshold: thresholdInfo});
       		client.close();            
   	});//closing connect
 
@@ -237,7 +239,7 @@ var box1;
 var box2;
 var box3;
 
-app.get('/settings', requireLogin, function(req,res){
+app.post('/editAlert', requireLogin, function(req,res){
 	
 	var thresholdChange;
 	thresholdChange = [
@@ -276,7 +278,7 @@ app.post('/saveSettings', requireLogin, function(req, res) {
 	console.log(box1);
 	console.log(box2);
 	console.log(box3);
-	res.redirect('/settings');
+	res.redirect('/editAlert');
 
 
 })

@@ -8,3 +8,15 @@
 
 
 <% } %>
+
+
+<% for(let i=0; i < threshold.length; i++) { %>
+	<ul>
+	  	<li>FreeTiB: <%=threshold[i].freeTiB %></li>
+	  	<li><%=threshold[i].totalDiskCount %></li>
+	  	
+	 </ul>
+
+
+
+<% } %>
