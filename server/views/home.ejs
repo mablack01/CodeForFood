@@ -113,30 +113,27 @@
     				return resp.json();
 				})
   				.then(function(res) {
-  					console.log(res)
-        			console.log(res.threshold)
-        			console.log(res.threshold.freeTiB)
-
         			thresh = res.threshold;
-        			function slider(th, thval) {
-        				st = `
-        				<div class="row">
-							<input type="range" class="slider" name="amountRange" min="0" max="100" value="`+thval+`" oninput="this.form.amountInput.value=this.value" />
-							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="`+thval+`" oninput="this.form.amountRange.value=this.value" />
-							<input type="checkbox" id="alertToggle1" name="alertToggle1" value="true">
-							<label for="alertToggle1" class="checkboxlabel">Toggle Alert</label>
-							<!-- label for= will have the same id as the checkbox you are connecting it to -->
+        			function slider(th, thval, i) {
+        				st = th+`<div style="display: block">
+        					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`" value="true">
+							<label for="alertToggle`+i+`" class="checkboxlabel">Enable Alert</label>
+							<input type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval+`" oninput="this.form.amountInput`+i+`.value=this.value" />
+							<input type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval+`" oninput="this.form.amountRange`+i+`.value=this.value" />
 						</div>
         				`
         				return st;
         			}
-        			slidetml = `NICE`;
+        			slidetml = `Settings for device `+id.substring(3, id.length)+`
+        			<form id="threshform" action="/saveSettings" method="post" class="slidecontainer">
+					`;
+					var i = 0;
         			for (var th in thresh) {
-        				slidetml += slider(th, thresh.th);
+        				slidetml += slider(th, thresh.th, i);
+        				i++;
         			}
-        			slidetml += `<form action="/saveSettings" method="post" class="slidecontainer">
-									<button type="submit">Save Settings</button>
-								</form>`
+        			slidetml += `<div class="butt cornerButt" type="submit" onclick="document.getElementById('threshform').submit();">Save Settings</div>
+        			</form>`
         			cont.insertAdjacentHTML('beforeend', slidetml);
     			});
 			}
