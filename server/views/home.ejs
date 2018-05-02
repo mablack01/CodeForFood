@@ -115,6 +115,7 @@
   				.then(function(res) {
         			thresh = res.threshold;
         			function slider(th, thval, i) {
+        				console.log(thval)
         				st = th+`<div style="display: block">
         					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`" value="true">
 							<label for="alertToggle`+i+`" class="checkboxlabel">Enable Alert</label>
@@ -126,10 +127,11 @@
         			}
         			slidetml = `Settings for device `+id.substring(3, id.length)+`
         			<form id="threshform" action="/saveSettings" method="post" class="slidecontainer">
+        			<input type="hidden" value="`+id+`" name="devID" />
 					`;
 					var i = 0;
         			for (var th in thresh) {
-        				slidetml += slider(th, thresh.th, i);
+        				slidetml += slider(th, thresh[th], i);
         				i++;
         			}
         			slidetml += `<div class="butt cornerButt" type="submit" onclick="document.getElementById('threshform').submit();">Save Settings</div>
@@ -148,7 +150,7 @@
 	}
   </script>
 </head>
-<body>
+<body style='font-family="sans-serif"'>
 	<div class="container-fluid">
 		<nav class="navbar navbar-default">
 	  		<div class="container-fluid">

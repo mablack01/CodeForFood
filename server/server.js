@@ -143,7 +143,7 @@ app.post('/login', function(req, res) {
 })//closing login 
 
 
-app.get('/logout', function(req, res){
+app.get('/logout', requireLogin, function(req, res){
   if (req.session){
     req.session.destroy(function(err){
       if (err) {
@@ -202,19 +202,35 @@ app.post('/viewAlert', requireLogin, function(req, res){
           
               collection.findOne({serialNumberInserv: devID}, function(err, result) {
                   if(err) throw err;
-                   thresholdInfo = {
-                    freeTiB : result.capacity.total.freeTiB,
-                    totalDiskCount: result.disks.total.diskCountNormal,
-                    diskState: result.disks.state,
-                    readMax: result.performance.portBandwidthData.read.iopsMax,
-                    readMin: result.performance.portBandwidthData.read.iopsMin,
-                    readAvg: result.performance.portBandwidthData.read.iopsAvg,
-                    writeMax: result.performance.portBandwidthData.write.iopsMax,
-                    writeMin: result.performance.portBandwidthData.write.iopsMin,
-                    writeAvg: result.performance.portBandwidthData.write.iopsAvg
+                  thresholdInfo = 
+                  {
+                    freeTiB : 25,
+                    totalDiskCount: 25,
+                    diskState: 25,
+                    readMax: 25,
+                    readMin: 25,
+                    readAvg: 25,
+                    writeMax: 25,
+                    writeMin: 25,
+                    writeAvg: 25
                   }
+                  if (result) {
+                    thresholdInfo = 
+                    {
+                      freeTiB : result.capacity.total.freeTiB,
+                      totalDiskCount: result.disks.total.diskCountNormal,
+                      diskState: result.disks.state,
+                      readMax: result.performance.portBandwidthData.read.iopsMax,
+                      readMin: result.performance.portBandwidthData.read.iopsMin,
+                      readAvg: result.performance.portBandwidthData.read.iopsAvg,
+                      writeMax: result.performance.portBandwidthData.write.iopsMax,
+                      writeMin: result.performance.portBandwidthData.write.iopsMin,
+                      writeAvg: result.performance.portBandwidthData.write.iopsAvg
+                    }
+                  }
+                  
 
-                  res.send({device: deviceInfo, threshold:thresholdInfo} );
+                  res.send({device: deviceInfo, threshold:thresholdInfo});
 
               }); 
           });
@@ -230,14 +246,9 @@ app.post('/viewAlert', requireLogin, function(req, res){
 
 
 
-var slide1;
-var slide2;
-var slide3;
-var box1;
-var box2;
-var box3;
+var slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9;
 
-app.post('/editAlert', requireLogin, function(req,res){
+app.post('/editAlert', function(req,res){
   
   var thresholdChange;
   thresholdChange = [
@@ -251,113 +262,82 @@ app.post('/editAlert', requireLogin, function(req,res){
     }
   ];
 
-  MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
-          if (err) { console.log("error in connection to User")}
-        var db = client.db('Devicedata');
-
-        db.collection('threshold', function (err, collection) {
-              collection.findOne({serialNumberInserv: devID}, function(err, result) {
-                  if(err) throw err;
-
-                  if (result == null){
-                    collection.insertOne(
-                    {
-                      
-                serialNumberInserv: id,
-              capacity: {
-                  total: {
-                      freeTiB: freesizeTiB
-                  }
-              },
   
-              disks: {
-                  total: {
-                      diskCountNormal: diskCount
-                    },
-                    state: newState
-                },
-
-              performance: {
-                    portBandwidthData: {
-                      read: {
-                          iopsAvg: readAvg,
-                          iopsMax: readMax,
-                          iopsMin: readMin
-                      },
-                      write: {
-                          iopsAvg: writeAvg,
-                          iopsMax: writeMax,
-                          iopsMin: writeMin
-                      }
-                  }
-              }
-                    });
-                  }
-                   
-
-                   thresholdInfo = [
-                  
-                  {
-                    freeTiB : result.capacity.total.freeTiB,
-                    totalDiskCount: result.disks.total.diskCountNormal,
-                    diskState: result.disks.state,
-                    readMax: result.performance.portBandwidthData.read.iopsMax,
-                    readMin: result.performance.portBandwidthData.read.iopsMin,
-                    readAvg: result.performance.portBandwidthData.read.iopsAvg,
-                    writeMax: result.performance.portBandwidthData.write.iopsMax,
-                    writeMin: result.performance.portBandwidthData.write.iopsMin,
-                    writeAvg: result.performance.portBandwidthData.write.iopsAvg
-                  }
-                  ]
-
-                  res.render('alert',  {device: deviceInfo, threshold:thresholdInfo} );
-
-              }); 
-          });
-      
-
-             //send them to frontend
-
-          client.close();            
-    });//closing connect
-
-
-
-
-
-
-
-
-
-
-  res.render('settings', {threshold: thresholdChange});
   
 })
     
 
 
 app.post('/saveSettings', requireLogin, function(req, res) {
-  slide1 = req.body.amountRange;
-  slide2 = req.body.amountRange2;
-  slide3 = req.body.amountRange3;
-  box1 = req.body.alertToggle1;
-  box2 = req.body.alertToggle2;
-  box3 = req.body.alertToggle3;
-  if (box1 === undefined) {box1 = false}
-  else {box1 = true}
-  if (box2 === undefined) {box2 = false}
-  else {box2 = true}
-  if (box3 === undefined) {box3 = false}
-  else {box3 = true}
+  slide1 = req.body.amountInput0;
+  slide2 = req.body.amountInput1;
+  slide3 = req.body.amountInput2;
+  slide4 = req.body.amountInput3;
+  slide5 = req.body.amountInput4;
+  slide6 = req.body.amountInput5;
+  slide7 = req.body.amountInput6;
+  slide8 = req.body.amountInput7;
+  slide9 = req.body.amountInput8;
 
-  console.log(slide1);
-  console.log(slide2);
-  console.log(slide3);
-  console.log(box1);
-  console.log(box2);
-  console.log(box3);
-  res.redirect('/editAlert');
+  var id = req.body.devID;
+  var devID = id.substring(3, id.length);
+  console.log(devID);
+  var thresholdChange;
 
+
+
+  MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+          if (err) { console.log("error in connection to User")}
+        var db = client.db('Devicedata');
+        var newThreshold = { $set: {
+                      
+                serialNumberInserv: devID,
+              capacity: {
+                  total: {
+                      freeTiB: slide1
+                  }
+              },
+  
+              disks: {
+                  total: {
+                      diskCountNormal: slide2
+                    },
+                    state: slide3
+                },
+
+              performance: {
+                    portBandwidthData: {
+                      read: {
+                          iopsAvg: slide4,
+                          iopsMax: slide5,
+                          iopsMin: slide6
+                      },
+                      write: {
+                          iopsAvg: slide7,
+                          iopsMax: slide8,
+                          iopsMin: slide9
+                      }
+                  }
+              }
+                    }};
+
+
+        db.collection('threshold', function (err, collection) {
+              collection.update({serialNumberInserv: devID}, newThreshold, {upsert: true}, function(err, result) {
+                if (err) throw err;
+                console.log("Updated 1 document");
+              })
+            })
+                
+          client.close();            
+    });//closing connect
+
+  res.redirect('/home');
+
+
+})
+
+app.post('/insertThreshold', function (req,res){
 
 })
 

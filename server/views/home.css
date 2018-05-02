@@ -3,9 +3,14 @@
   --color-dark: #60c4ba;
   --color-bg: #f9feff;
   --color-border: #b2b2b2;
+  --color-neutral: #f7f7f7;
+  --color-soft: #cceae5;
 }
 body {
   background-color: var(--color-bg);
+}
+p {
+  font: 15px sans-seriff;
 }
 .box {
         background-color: var(--color);
@@ -43,7 +48,7 @@ body {
 }
 #list {
   overflow-y: scroll;
-  background-color: #e0e0e0;
+  background-color: var(--color-neutral);
   height: 600px;
   border-bottom-left-radius: 8px;
   border-top: 2px solid var(--color-border);
@@ -51,7 +56,7 @@ body {
   border-left: 2px solid var(--color-border);
 }
 #content {
-  background-color: #e0e0e0;
+  background-color: var(--color-neutral);
   height: 600px;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
@@ -80,6 +85,12 @@ body {
   position: absolute;
   bottom: 5px;
   left: 5px;
+  border-radius: 10px;
+  width: 130px;
+  height: 30px;
+  line-height: 200%;
+}
+.roundButt {
   border-radius: 10px;
   width: 130px;
   height: 30px;
@@ -144,7 +155,7 @@ body {
 }
 #list {
   overflow-y: scroll;
-  background-color: #e0e0e0;
+  background-color: var(--color-neutral);
   height: 600px;
   border-bottom-left-radius: 8px;
   border-top: 2px solid var(--color-border);
@@ -152,7 +163,7 @@ body {
   border-left: 2px solid var(--color-border);
 }
 #content {
-  background-color: #e0e0e0;
+  background-color: var(--color-neutral);
   height: 600px;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
@@ -215,4 +226,18 @@ body {
   background: #0099ff; /*light blue slider dot */
   width: 15px;
   height: 15px;
+}
+
+
+.loginBox {
+  background: var(--color-soft);
+  width: 500px;
+  height: 600px;
+  margin: 0 auto;
+  border-radius: 25px;
+  border: 3px solid var(--color-dark);
+}
+.inputBox {
+  height: 16px;
+  border-radius: 3px;
 }
