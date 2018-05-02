@@ -38,13 +38,16 @@
 			document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert '+i+'</div>');
 		}
 		if (div == 'settings') {
-			document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+i+'\')\" data-id=\"set'+i+'\"><var hidden>set'+i+'</var>Device(S) '+i+'</div>');
+			for (i = 0; i < dev.length; i++){
+				var key = dev[i].serialNum;
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'settings\', \'set'+key+'\')\" data-id=\"set'+key+'\">Settings '+key+'</div>');
+			}
 		}
 	}
 
 	//used to find the correct device, given the user's list and a single desired ID
 	function getByID(list, id) {
-    	if (id.substring(0, 3) == 'dev') {
+    	if (id.substring(0, 3) == 'dev' || id.substring(0, 3) == 'set') {
       		for (var i = 0; i < list.length; i++) {
         		if (id.substring(3, id.length) == list[i].serialNum) {
           			return list[i];
@@ -65,7 +68,7 @@
 			}
 			if (type == 'devices') {
 				var devs = <%- JSON.stringify(device)%>;
-				var dev = getByID(devs, id)
+				var dev = getByID(devs, id);
 				cont.insertAdjacentHTML('beforeend', `
 					<ul>
 	  					<li>Serial Number: `+dev.serialNum+`</li>
@@ -80,6 +83,10 @@
 	  					<button type="submit"> View Alert </button></br>
 	  				</form>
 
+	  				<div class="butt cornerButt" onclick="loadContent('settings', 'set`+id.substring(3, id.length)+`')">
+	  					View Settings
+	  				</div>
+
 	  				
 
 	  				`);
@@ -89,8 +96,30 @@
 					'<div>Content!<br/>Alert Content!<br/>Number ' + id + '</div>');
 			}
 			else if (type == 'settings') {
-				cont.insertAdjacentHTML('beforeend', 
-					'<div>Content!<br/>Settings Content!<br/>Number ' + id + '</div>');
+				var devs = <%- JSON.stringify(device)%>;
+				var dev = getByID(devs, id);
+				var threshs = <%- JSON.stringify(threshold)%>;
+				cont.insertAdjacentHTML('beforeend', `
+					<div>
+						Device: `+dev.serialNum+`
+						<div class="col-6">
+						<form action="/saveSettings" method="post" class="slidecontainer">
+							<!-- when you refresh the boxes are empty becuase it is looking for threshold array but theres noting there, it will be fixed when we have a database -->
+							<div class="row">
+				
+								<input type="range" class="slider" name="amountRange" min="0" max="100" value="<%= threshold[i].s1 %>" oninput="this.form.amountInput.value=this.value" />
+								<input type="number" class="slideform" name="amountInput" min="0" max="100" value="<%= threshold[i].s1 %>" oninput="this.form.amountRange.value=this.value" />
+								<input type="checkbox" id="alertToggle1" name="alertToggle1" value="true">
+								<label for="alertToggle1" class="checkboxlabel">Toggle Alert</label>
+								<!-- label for= will have the same id as the checkbox you are connecting it to -->
+							</div>
+							<% } %>
+
+							<button type="submit">Save Settings</button>
+						</form>
+						</div>
+					</div>
+					`);
 			}
 			all = document.getElementsByClassName("listElem");
 	    	for (i = 0; i < all.length; i++) {
