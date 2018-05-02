@@ -232,8 +232,6 @@ app.post('/viewAlert', requireLogin, function(req, res){
 
 
 
-var slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9;
-
 app.post('/editAlert', function(req,res){
 	
 	var thresholdChange;
@@ -253,17 +251,17 @@ app.post('/editAlert', function(req,res){
 })
 		
 
-
+//take the value from the page and make changes to the threhsold db
 app.post('/saveSettings', requireLogin, function(req, res) {
-	slide1 = req.body.amountInput0;
-	slide2 = req.body.amountInput1;
-	slide3 = req.body.amountInput2;
-	slide4 = req.body.amountInput3;
-	slide5 = req.body.amountInput4;
-	slide6 = req.body.amountInput5;
-	slide7 = req.body.amountInput6;
-	slide8 = req.body.amountInput7;
-	slide9 = req.body.amountInput8;
+	var slide1 = req.body.amountInput0;
+	var slide2 = req.body.amountInput1;
+	var slide3 = req.body.amountInput2;
+	var slide4 = req.body.amountInput3;
+	var slide5 = req.body.amountInput4;
+	var slide6 = req.body.amountInput5;
+	var slide7 = req.body.amountInput6;
+	var slide8 = req.body.amountInput7;
+	var slide9 = req.body.amountInput8;
 
 	var id = req.body.devID;
 	var devID = id.substring(3, id.length);
@@ -271,6 +269,7 @@ app.post('/saveSettings', requireLogin, function(req, res) {
 	var thresholdChange;
 
 
+	//connecting to the threshold Collection
 
 	MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
       		if (err) { console.log("error in connection to User")}
