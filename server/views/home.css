@@ -73,6 +73,17 @@ body {
   -webkit-appearance: none;
   background-color: var(--color);
   cursor: pointer;
+  text-align: center;
+  text-shadow: 2px 1px var(--color-dark);
+}
+.cornerButt {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  border-radius: 10px;
+  width: 130px;
+  height: 30px;
+  line-height: 200%;
 }
 ::-webkit-scrollbar {
     width: 12px;
@@ -178,4 +189,34 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-dark); 
     border: 2px solid var(--color);
+}
+.slidecontainer {
+    /*Width of the outside container */
+    width: 500px;  
+    background: yellow;
+}
+.checkboxlabel {
+    padding-top: 5px;
+}
+.slideform {
+  width:70px;
+}
+.slider {
+  width: 250px;
+  background: none;
+  border-radius: 0px; /*rounds the corners */
+  height: 10px;
+    padding-right: 20px;
+    padding-top: 18px;
+    padding-left: 30px;
+}
+.slider::-webkit-slider-thumb { /*-webkit means that it changes the style for chrome/opera/safari/ie */
+  background: #0099ff;
+  width: 15px;
+  height: 15px;
+}
+.slider::-moz-range-thumb { /* -moz means its for firefox the two should just be the same contents */
+  background: #0099ff; /*light blue slider dot */
+  width: 15px;
+  height: 15px;
 }
