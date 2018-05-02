@@ -200,7 +200,6 @@ app.post('/viewAlert', requireLogin, function(req, res){
       		// get the info of threshold
       		db.collection('threshold', function (err, collection) {
           
-
           		collection.findOne({serialNumberInserv: devID}, function(err, result) {
               		if(err) throw err;
               		 thresholdInfo = [
@@ -222,15 +221,16 @@ app.post('/viewAlert', requireLogin, function(req, res){
           		}); 
       		});
 			
-      				
+
              //send them to frontend
 
       		client.close();            
   	});//closing connect
 
-
-
 })
+
+
+
 
 var slide1;
 var slide2;
@@ -252,6 +252,86 @@ app.post('/editAlert', requireLogin, function(req,res){
 			b3: box3
 		}
 	];
+
+	MongoClient.connect("mongodb+srv://cs320:root@cluster0-9bmfr.mongodb.net/test", function (err, client) {
+      		if (err) { console.log("error in connection to User")}
+     	 	var db = client.db('Devicedata');
+
+     	 	db.collection('threshold', function (err, collection) {
+          		collection.findOne({serialNumberInserv: devID}, function(err, result) {
+              		if(err) throw err;
+
+              		if (result == null){
+              			collection.insertOne(
+              			{
+              				
+  							serialNumberInserv: id,
+							capacity: {
+     							total: {
+        							freeTiB: freesizeTiB
+	  							}
+							},
+	
+							disks: {
+     					 		total: {
+        							diskCountNormal: diskCount
+      							},
+      							state: newState
+    						},
+
+							performance: {
+      							portBandwidthData: {
+       								read: {
+          								iopsAvg: readAvg,
+          								iopsMax: readMax,
+          								iopsMin: readMin
+        							},
+        							write: {
+          								iopsAvg: writeAvg,
+          								iopsMax: writeMax,
+          								iopsMin: writeMin
+        							}
+	  							}
+							}
+              			});
+              		}
+              		 
+
+              		 thresholdInfo = [
+              		
+              		{
+              			freeTiB : result.capacity.total.freeTiB,
+              			totalDiskCount: result.disks.total.diskCountNormal,
+              			diskState: result.disks.state,
+              			readMax: result.performance.portBandwidthData.read.iopsMax,
+              			readMin: result.performance.portBandwidthData.read.iopsMin,
+              			readAvg: result.performance.portBandwidthData.read.iopsAvg,
+              			writeMax: result.performance.portBandwidthData.write.iopsMax,
+              			writeMin: result.performance.portBandwidthData.write.iopsMin,
+              			writeAvg: result.performance.portBandwidthData.write.iopsAvg
+              		}
+              		]
+
+              		res.render('alert',  {device: deviceInfo, threshold:thresholdInfo} );
+
+          		}); 
+      		});
+			
+
+             //send them to frontend
+
+      		client.close();            
+  	});//closing connect
+
+
+
+
+
+
+
+
+
+
 	res.render('settings', {threshold: thresholdChange});
 	
 })
