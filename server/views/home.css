@@ -57,11 +57,15 @@ p {
 }
 .alertList {
   overflow-y: scroll;
-  height: 100%;
+  height: 550px;
+  bottom: 0px;
 }
 .alertElem {
   height: 100px;
-  background: var(--color-neutral);
+  border-radius: 5px;
+  border: 2px solid var(--color-dark);
+  margin-bottom: 5px;
+  width: 90%;
 }
 #content {
   background-color: var(--color-neutral);
@@ -78,6 +82,12 @@ p {
   border-right: 2px solid var(--color-border);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  padding: 0px !important;
+}
+.contentTab {
+  margin-bottom: 10px;
+  background: var(--color-soft);
+  border-top-right-radius: 5px;
 }
 #main {
   margin: 0px;
@@ -89,10 +99,8 @@ p {
   text-align: center;
   text-shadow: 2px 1px var(--color-dark);
 }
-.cornerButt {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
+.tabButt {
+  display: inline-block;
   border-radius: 10px;
   width: 130px;
   height: 30px;
@@ -166,6 +174,7 @@ body {
   background-color: var(--color-neutral);
   height: 600px;
   border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
   border-top: 2px solid var(--color-border);
   border-bottom: 2px solid var(--color-border);
   border-left: 2px solid var(--color-border);

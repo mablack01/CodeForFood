@@ -97,7 +97,7 @@ app.get('/home', requireLogin, function(req, res){
                 }
               }
               
-              res.render('home', {device: deviceInfo});
+              res.render('home', {device: deviceInfo, user: req.session.user});
               client.close();
           });
         
@@ -425,7 +425,6 @@ app.post('/saveSettings', requireLogin, function(req, res) {
 
   var id = req.body.devID;
   var devID = id.substring(3, id.length);
-  console.log(devID);
   var thresholdChange;
 
 
