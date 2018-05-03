@@ -55,6 +55,14 @@ p {
   border-bottom: 2px solid var(--color-border);
   border-left: 2px solid var(--color-border);
 }
+.alertList {
+  overflow-y: scroll;
+  height: 100%;
+}
+.alertElem {
+  height: 100px;
+  background: var(--color-neutral);
+}
 #content {
   background-color: var(--color-neutral);
   height: 600px;

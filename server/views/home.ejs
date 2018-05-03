@@ -35,7 +35,10 @@
 			}
 		}
 		else if (div == 'alerts') {
-			document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+i+'\')\" data-id=\"alt'+i+'\">Alert '+i+'</div>');
+			for (i = 0; i < dev.length; i++){
+				var key = dev[i].serialNum;
+				document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'alerts\', \'alt'+key+'\')\" data-id=\"set'+key+'\">Alerts '+key+'</div>');
+			}
 		}
 		if (div == 'settings') {
 			for (i = 0; i < dev.length; i++){
@@ -94,7 +97,7 @@
 	  					<li>FreeTiB: `+dev.freeSizeTiB+`</li>
 	  				</ul>
 
-	  				<form action="/viewAlert" method="post">
+	  				<form action="/viewSettings" method="post">
 	  					<input type="hidden" name="devID" id="devID" value="`+id+`">
 	  					<button type="submit"> View Alert </button></br>
 	  				</form>
@@ -102,18 +105,17 @@
 	  				<div class="butt cornerButt" onclick="loadContent('settings', 'set`+id.substring(3, id.length)+`')">
 	  					View Settings
 	  				</div>
-
-	  				
-
 	  				`);
 			}
+			//ALERT CONTENT
 			else if (type == 'alerts') {
-				fetch('/viewAlert', {
+				console.log('viewing alert content!');
+				fetch('/triggeredAlerts', {
     			body: JSON.stringify({devID: id}), // must match 'Content-Type' header
     			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     			credentials: 'same-origin', // include, same-origin, *omit
     			headers: {
-      				'user-agent': 'Mozilla/4.0 MDN Example',
+      				'user-agent': 'Mozilla/4.0 MDN',
       				'content-type': 'application/json'
     			},
     			method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -125,40 +127,34 @@
     				return resp.json();
 				})
   				.then(function(res) {
-        			thresh = res.threshold;
-        			function slider(th, thval, i) {
-        				console.log(thval)
-        				st = th+`<div style="display: block">
-        					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`" value="`+thval[1]+`">
-							<label for="alertToggle`+i+`" class="checkboxlabel">Enable Alert</label>
-							<input id="threshSlider`+i+`" type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountInput`+i+`.value=this.value" />
-							<input id="threshBox`+i+`" type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountRange`+i+`.value=this.value" />
-						</div>
-        				`
-        				return st;
-        			}
-        			slidetml = `Settings for device `+id.substring(3, id.length)+`
-        			<form id="threshform" action="/saveSettings" method="post" class="slidecontainer">
-        			<input type="hidden" value="`+id+`" name="devID" />
-					`;
-					var i = 0;
-        			for (var th in thresh) {
-        				slidetml += slider(th, thresh[th], i);
-        				i++;
-        			}
-        			slidetml += `<div class="butt cornerButt" type="submit" onclick="submitSettings(`+thresh+`)">Save Settings</div>
-        			</form>`
-        			cont.insertAdjacentHTML('beforeend', slidetml);
+        			alert = res.alert;
+        			altml = `
+        				<div class="alertList">
+        					It's an alert!`;
+        					console.log(alert);
+        					for (status in alert) {
+        						if (alert[status]) {
+	        						altml += `
+	        							<div class="alertElem">
+	        								Alert `+status+` was triggered! 
+	        							</div>
+	        						`
+	        					}
+        					}
+        			altml +=`
+        				</div>
+        			`
+        			cont.insertAdjacentHTML('beforeend', altml);
     			});
 			}
 			//SETTINGS CONTENT
 			else if (type == 'settings') {
-				fetch('/viewAlert', {
+				fetch('/viewSettings', {
     			body: JSON.stringify({devID: id}), // must match 'Content-Type' header
     			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     			credentials: 'same-origin', // include, same-origin, *omit
     			headers: {
-      				'user-agent': 'Mozilla/4.0 MDN Example',
+      				'user-agent': 'Mozilla/4.0 MDN',
       				'content-type': 'application/json'
     			},
     			method: 'POST', // *GET, POST, PUT, DELETE, etc.
