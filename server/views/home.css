@@ -249,7 +249,7 @@ body {
 .loginBox {
   background: var(--color-soft);
   width: 500px;
-  height: 600px;
+  height: 300px;
   margin: 0 auto;
   border-radius: 25px;
   border: 3px solid var(--color-dark);
