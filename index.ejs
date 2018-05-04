@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="home.css">
+<head>
+  <meta charset="utf-8">
+  <title>Code4Food</title>
+  <style >
+    .form-group {
+        margin-bottom: 15px;
+    }
+    body{
+        text-align: center;
+    }
+    .page-header {
+        padding-bottom: 9px;
+        margin: 40px 0 20px;
+        border-bottom: 1px solid #eee;
+    }
+    head{
+      padding-top: :100px;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="home.css"> -->
+</head>
+<body style='font-family="sans-serif"'>
+	<h1 style='font-size: 2.4em; text-shadow: 5px 5px 20px #636363; font-weight: normal'>Welcome to <span>Code4Food</span> Storage Managment!</h1>
+<div class="loginBox">
+  <h2 class="page-header" style="font-weight: normal">Login to check your devices</h2>
+  <!-- form -->
+    <form id="login" action="/login" class="login" method="post">
+      <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control inputBox" name="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control inputBox" name="password" placeholder="Password">
+    </div>
+    <div class="butt roundButt" id="loginButton" style="margin: 0 auto" type="submit" onclick="document.getElementById('login').submit();">Login</div>
+    </form>
+</div>
+
+  <!-- <a href="http://localhost:7554/settings"><h2> Settings</h2></a> -->
+  
+</body>
+</html>

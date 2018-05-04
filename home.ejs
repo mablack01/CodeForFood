@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="home.css">
+<head>
+  <title>Code4Food</title>
+  <script>
+
+  	//Not needed when tabs were removed
+  	/*function listTab(evt, name) {
+	    var i, tabcontent, tablinks;
+	    // Get all elements with class="tabcontent" and hide them
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    // Get all elements with class="tablinks" and remove the class "active"
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    // Show the current tab, and add an "active" class to the button that opened the tab
+	    document.getElementById(name).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}*/
+
+	//div is the string id of the div
+	function loadList(div) {
+		//TODO: i's will be replaced with ids
+		var dev = <%- JSON.stringify(device)%>;
+		console.log(dev);
+		for (i = 0; i < dev.length; i++){
+			var key = dev[i].serialNum;
+			document.getElementById(div).insertAdjacentHTML('beforeend', '<div class=\"butt listElem\" onclick=\"loadContent(\'devices\', \'dev'+key+'\')\" data-id=\"dev'+key+'\">Device '+key+'</div>');
+		}
+	}
+
+	function toggleAlert(i, tf) {
+		console.log('setting ' + i + ' to ' + tf)
+		document.getElementById('threshform')['alertToggle'+i].value=tf;
+		document.getElementById('threshSlider'+i).disabled=!tf;
+		document.getElementById('threshBox'+i).disabled=!tf;
+	}
+
+	function submitSettings(num) {
+		console.log('saving changes')
+        for (var i = 0; i < num; i++) {
+        	document.getElementById('threshSlider'+i).disabled=false;
+        	document.getElementById('threshBox'+i).disabled=false;
+        }
+        document.getElementById('threshform').submit();
+	}
+
+	//used to find the correct device, given the user's list and a single desired ID
+	function getByID(list, id) {
+    	if (id.substring(0, 3) == 'dev' || id.substring(0, 3) == 'set') {
+      		for (var i = 0; i < list.length; i++) {
+        		if (id.substring(3, id.length) == list[i].serialNum) {
+          			return list[i];
+        		}
+      		}
+    	}
+    	return undefined;
+  	}
+	
+	function loadContent(type, id, device) {
+		if (id == 'content') {
+			var sub = 'dev';
+			if (type == 'alerts') sub = 'alt';
+			if (type == 'settings') sub = 'set';
+			id = document.getElementById('content').getAttribute('data-device');
+			id = sub + id.substring(3, id.length);
+		}
+		document.getElementById('content').setAttribute('data-device', id)
+		document.getElementById('idDisplay').innerHTML = "Device " + id.substring(3, id.length)
+		console.log(id);
+		//remove the current content in the content box
+		var cont = document.getElementById("contentArea");
+		while (cont.firstChild) {
+		cont.removeChild(cont.firstChild);
+		}
+		if (type == 'devices') {
+			var devs = <%- JSON.stringify(device)%>;
+			var dev = getByID(devs, id);
+			cont.insertAdjacentHTML('beforeend', `
+				<ul>
+  					<li>Serial Number: `+dev.serialNum+`</li>
+  					<li>Company Name: `+dev.companyName+`</li>
+  					<li>Model: `+dev.fullModel+`</li>
+  					<li>SizeTiB: `+dev.totalSizeTiB+`</li>
+  					<li>FreeTiB: `+dev.freeSizeTiB+`</li>
+  				</ul>
+  				`);
+		}
+		//ALERT CONTENT
+		else if (type == 'alerts') {
+			console.log('viewing alert content!');
+			fetch('/triggeredAlerts', {
+			body: JSON.stringify({devID: id}), // must match 'Content-Type' header
+			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+			credentials: 'same-origin', // include, same-origin, *omit
+			headers: {
+  				'user-agent': 'Mozilla/4.0 MDN',
+  				'content-type': 'application/json'
+			},
+			method: 'POST', // *GET, POST, PUT, DELETE, etc.
+			mode: 'cors', // no-cors, cors, *same-origin
+			redirect: 'follow', // manual, *follow, error
+			referrer: 'no-referrer', // *client, no-referrer
+				})
+				.then(function(resp){
+				return resp.json();
+			})
+				.then(function(res) {
+    			alert = res.alert;
+    			altml = `
+    				<div class="alertList">`;
+    					var i = 0;
+    					for (status in alert) {
+    						if (alert[status]) {
+        						altml += `
+        							<div class="alertElem">
+        								Alert `+status+` was triggered! 
+        							</div>
+        						`
+        						i++;
+        					}
+    					}
+    					if (i == 0) {
+    						console.log('gogogo');
+    						altml += `<div style="font-size:large; margin-left: 5px;">No alerts to display</div>`;
+    					}
+    			altml +=`
+    				</div>
+    			`
+    			cont.insertAdjacentHTML('beforeend', altml);
+			});
+		}
+		//SETTINGS CONTENT
+		else if (type == 'settings') {
+			fetch('/viewSettings', {
+			body: JSON.stringify({devID: id}), // must match 'Content-Type' header
+			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+			credentials: 'same-origin', // include, same-origin, *omit
+			headers: {
+  				'user-agent': 'Mozilla/4.0 MDN',
+  				'content-type': 'application/json'
+			},
+			method: 'POST', // *GET, POST, PUT, DELETE, etc.
+			mode: 'cors', // no-cors, cors, *same-origin
+			redirect: 'follow', // manual, *follow, error
+			referrer: 'no-referrer', // *client, no-referrer
+				})
+				.then(function(resp){
+				return resp.json();
+			})
+				.then(function(res) {
+    			thresh = res.threshold;
+    			function slider(th, thval, i) {
+    				console.log(thval)
+    				var checc = '';
+    				var disabled = 'disabled="true"'
+    				if (thval[1] && thval[1] == 'true') {
+    					checc = ' checked="true"'
+    					disabled = '';
+    				}
+    				st = `<div style="display: block; margin-left: 5px;">
+    					<input type="checkbox" id="alertToggle`+i+`" name="alertToggle`+i+`"`+checc+` value="`+thval[1]+`" onclick="toggleAlert(`+i+`, this.checked)">
+						<label for="alertToggle`+i+`" class="checkboxlabel">Enable Alert</label>
+						<input id="threshSlider`+i+`" type="range" class="slider" name="amountRange`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountInput`+i+`.value=this.value" `+disabled+`/>
+						<input id="threshBox`+i+`" style="width: 45px" type="number" class="slideform" name="amountInput`+i+`" min="0" max="100" value="`+thval[0]+`" oninput="this.form.amountRange`+i+`.value=this.value" `+disabled+`/>
+						<div style="display: inline-block;">%</div>
+						<div style="display: inline-block; margin-left: 10px;">`+th+`</div>
+					</div>
+    				`
+    				return st;
+    			}
+    			slidetml = `
+    			<form id="threshform" action="/saveSettings" method="post" class="slidecontainer">
+    			<input type="hidden" value="`+id+`" name="devID" />
+				`;
+				var i = 0;
+    			for (var th in thresh) {
+    				slidetml += slider(th, thresh[th], i);
+    				i++;
+    			}
+    			slidetml += `<div class="butt tabButt" style="width: 200px; height: 40px; color: black; font-size: 1.4em; text-shadow:none; position: absolute; right: 8px; bottom: 8px;" type="submit" onclick="submitSettings(`+i+`)">Save Settings</div>
+    			</form>`
+    			cont.insertAdjacentHTML('beforeend', slidetml);
+			});
+		}
+		all = document.getElementsByClassName("listElem");
+    	for (i = 0; i < all.length; i++) {
+        	all[i].className = all[i].className.replace(" activeListElem", "");
+        	var allid = all[i].getAttribute('data-id');
+        	if (allid.substring(3, allid.length) == id.substring(3, id.length)) {
+        		all[i].className += " activeListElem";
+        	}
+    	}
+	}
+  </script>
+</head>
+<body style='font-family="sans-serif"'>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default">
+  			<div class="container-fluid">
+    			<div class="navbar-header">
+      				<a class="navbar-brand" href="#" style="font-size: 1.8em;">Code4Food</a>
+    			</div>
+    			<ul class="nav navbar-nav">
+      				<li class="active"><a href="/home">Home</a></li>
+    			</ul>
+    			<ul class="nav navbar-nav navbar-right">
+      				<li><a><span class="glyphicon glyphicon-user"></span><%=user%></a></li>
+      				<li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+    			</ul>
+  			</div>
+		</nav>
+	  	<div id="main" class="row">
+	    	<div id="list" class="col-md-2" style="padding: 0px">
+	      		<div id="devices" class="tabcontent">
+	        		<script type="text/javascript">
+	        			loadList('devices');
+	        		</script>
+	      		</div>
+	    	</div>
+	  		<div id="content" class="col-md-8" data-device="404" style="padding: 0px;">
+	  			<div class="contentTab">
+		  			<div id="idDisplay" style="font-size:large; display: inline-block; margin-left: 5px;">Device 01010</div>
+		  			<div id="tabDevice" class="butt tabButt" onclick="loadContent('devices', 'content')">
+		  				Overview
+		  			</div>
+		  			<div id="tabAlerts" class="butt tabButt" onclick="loadContent('alerts', 'content')">
+		  				Alerts
+		  			</div>
+		  			<div id="tabSettings" class="butt tabButt" onclick="loadContent('settings', 'content')">
+		  				Customize Alerts
+		  			</div>
+		  		</div>
+	  			<script type="text/javascript">
+	  				window.onload = function() {
+	  					var dev = <%- JSON.stringify(device)%>;
+  						loadContent('devices', 'dev'+dev[0].serialNum);
+					};
+	  			</script>
+	  			<div id="contentArea">
+	  				
+	  			</div>
+	    	</div>
+	    </div>
+    </div>
+</body>

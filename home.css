@@ -1,0 +1,269 @@
+:root {
+  --color: #68d8cd;
+  --color-dark: #60c4ba;
+  --color-bg: #f9feff;
+  --color-border: #b2b2b2;
+  --color-neutral: #f7f7f7;
+  --color-soft: #cceae5;
+}
+body {
+	font-family: "sans-serif";
+  background-color: var(--color-bg);
+}
+p {
+  font: 15px sans-seriff;
+}
+.box {
+        background-color: var(--color);
+        text-align: center;
+        text-decoration: none;
+}
+#top{
+  width: 100%;
+  margin: 0 auto; 
+  
+}
+.butt:hover {
+  background-color: var(--color-dark);
+}
+
+#loginButton {
+	text-shadow: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    height: 45px;	
+}
+
+.listElem {
+  width: 100%;
+  height: 46px;
+  margin-bottom: 5px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.activeListElem {
+  border: 3px solid var(--color-dark);
+  background: radial-gradient(var(--color), var(--color-dark));
+}
+.boxbutton {
+  display: block;
+  color: black;
+  text-align: center
+  padding: 16px;
+  text-decoration: none;
+}
+.boxbutton:hover {
+  background-color: var(--color-dark);
+}
+#list {
+  overflow-y: scroll;
+  background-color: var(--color-neutral);
+  height: 600px;
+  border-bottom-left-radius: 8px;
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  border-left: 2px solid var(--color-border);
+}
+.alertList {
+  overflow-y: scroll;
+  height: 550px;
+  bottom: 0px;
+}
+.alertElem {
+  height: 100px;
+  border-radius: 5px;
+  border: 2px solid var(--color-dark);
+  margin-bottom: 5px;
+  width: 90%;
+}
+#content {
+  background-color: var(--color-neutral);
+  height: 600px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  border-right: 2px solid var(--color-border);
+}
+.tab {
+  border-top: 2px solid var(--color-border);
+  border-left: 2px solid var(--color-border);
+  border-right: 2px solid var(--color-border);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 0px !important;
+}
+.contentTab {
+  margin-bottom: 10px;
+  background: var(--color-soft);
+  border-top-right-radius: 5px;
+}
+#main {
+  margin: 0px;
+}
+.butt {
+  -webkit-appearance: none;
+  background-color: var(--color);
+  cursor: pointer;
+  text-align: center;
+  text-shadow: 2px 1px var(--color-dark);
+}
+.tabButt {
+  display: inline-block;
+  border-radius: 10px;
+  width: 130px;
+  height: 30px;
+  line-height: 200%;
+}
+.roundButt {
+  border-radius: 10px;
+  width: 130px;
+  height: 30px;
+  line-height: 200%;
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #b7b7b7; 
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color);
+    border-radius: 5px;
+    border: 2px solid var(--color-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark); 
+    border: 2px solid var(--color);
+}:root {
+  --color: #68d8cd;
+  --color-dark: #60c4ba;
+  --color-bg: #00dada1a;
+  --color-border: #b2b2b2;
+}
+body {
+  background-color: var(--color-bg);
+}
+.box {
+        background-color: var(--color);
+        text-align: center;
+        text-decoration: none;
+}
+#top{
+  width: 100%;
+  margin: 0 auto; 
+  
+}
+.butt:hover {
+  background-color: var(--color-dark);
+}
+.listElem {
+  width: 100%;
+  height: 46px;
+  margin-bottom: 5px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.activeListElem {
+  border: 3px solid var(--color-dark);
+  background: radial-gradient(var(--color), var(--color-dark));
+}
+.boxbutton {
+  display: block;
+  color: black;
+  text-align: center
+  padding: 16px;
+  text-decoration: none;
+}
+.boxbutton:hover {
+  background-color: var(--color-dark);
+}
+#list {
+  overflow-y: scroll;
+  background-color: var(--color-neutral);
+  height: 600px;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  border-left: 2px solid var(--color-border);
+}
+#content {
+  background-color: var(--color-neutral);
+  height: 600px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  border-right: 2px solid var(--color-border);
+}
+.tab {
+  border-top: 2px solid var(--color-border);
+  border-left: 2px solid var(--color-border);
+  border-right: 2px solid var(--color-border);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#main {
+  margin: 0px;
+}
+.butt {
+  -webkit-appearance: none;
+  background-color: var(--color);
+  cursor: pointer;
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #b7b7b7; 
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color);
+    border-radius: 5px;
+    border: 2px solid var(--color-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark); 
+    border: 2px solid var(--color);
+}
+.slidecontainer {
+    /*Width of the outside container */
+}
+.checkboxlabel {
+    padding-top: 5px;
+}
+.slideform {
+  width:70px;
+}
+.slider {
+  display: inline !important;
+  width: 250px !important;
+  background: var(--color-dark);
+  border-radius: 0px; /*rounds the corners */
+  height: 10px;
+}
+.slider::-webkit-slider-thumb { /*-webkit means that it changes the style for chrome/opera/safari/ie */
+  background: #0099ff;
+  width: 15px;
+  height: 15px;
+}
+.slider::-moz-range-thumb { /* -moz means its for firefox the two should just be the same contents */
+  background: #0099ff; /*light blue slider dot */
+  width: 15px;
+  height: 15px;
+}
+
+
+.loginBox {
+  background: var(--color-soft);
+  width: 500px;
+  height: 270px;
+  margin: 0 auto;
+  border-radius: 25px;
+  border: 3px solid var(--color-dark);
+}
+.inputBox {
+  height: 16px;
+  border-radius: 3px;
+}

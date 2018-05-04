@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="settings.css">
+	</head>
+	<script>
+  	function listAlerts(evt, name) {
+	    var i, tabcontent, tablinks;
+	    // Get all elements with class="tabcontent" and hide them
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    // Get all elements with class="tablinks" and remove the class "active"
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    // Show the current tab, and add an "active" class to the button that opened the tab
+	    document.getElementById(name).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+  </script>
+
+	<body>
+		<nav class="navbar navbar-default">
+	  		<div class="container-fluid">
+	    		<div class="navbar-header">
+	      			<a class="navbar-brand" href="#">Code4Food</a>
+	    		</div>
+	    		<ul class="nav navbar-nav">
+	      			<li class="active"><a href="/home">Home</a></li>
+	      			<li><a href="/settings">Settings</a></li>
+	      			<li><a href="/logout">Log out</a></li>
+	    		</ul>
+	  		</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-sm-1">
+				<div class="blank"></div>
+			</div>
+			<div class="col-sm-3"> 
+				<h2 class="device_title">Device</h2>
+			</div>
+			<div class="col-sm-7">
+				<h2 class ="alert_title">Alerts</h2>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-1">
+				<div class="blank"></div>
+			</div>
+
+			<div class="col-lg-2">
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 1</div>
+				</div>
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 2</div>
+				</div>
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 3</div>
+				</div>
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 4</div>
+				</div>
+			</div>
+
+
+			<div class="col-sm-6">
+				<div id=d_id> 
+					<div class="row alert">
+						<form>
+							<input type="range" class="slider" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+						</form>
+					</div>
+				</div>
+
+				<div id=d_id> 
+					<div class="row alert">
+						<form>
+							<input type="range" class="slider" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+						</form>
+					</div>
+					
+				</div>
+
+				<div id=d_id> 
+					<div class="row alert">
+						<form>
+							<input type="range" class="slider" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="blank"></div>
+			</div>
+		</div>
+		<script>
+			function displayFunction(){
+				document.getElementById("d_id").style.display = "block"
+			}
+		</script>
+
+
+	</body>
+</html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="settings.css">
+	</head>
+	<script>
+  	function listAlerts(evt, name) {
+	    var i, tabcontent, tablinks;
+	    // Get all elements with class="tabcontent" and hide them
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    // Get all elements with class="tablinks" and remove the class "active"
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    // Show the current tab, and add an "active" class to the button that opened the tab
+	    document.getElementById(name).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+  </script>
+
+	<body>
+		<nav class="navbar navbar-default">
+	  		<div class="container-fluid">
+	    		<div class="navbar-header">
+	      			<a class="navbar-brand" href="#">Code4Food</a>
+	    		</div>
+	    		<ul class="nav navbar-nav">
+	      			<li class="active"><a href="/home">Home</a></li>
+	      			<li><a href="/settings">Settings</a></li>
+	      			<li><a href="/logout">Log out</a></li>
+	    		</ul>
+	  		</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-sm-1">
+				<div class="blank"></div>
+			</div>
+			<div class="col-sm-3"> 
+				<h2 class="device_title">Device</h2>
+			</div>
+			<div class="col-sm-7">
+				<h2 class ="alert_title">Alerts</h2>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-1">
+				<div class="blank"></div>
+			</div>
+
+			<div class="col-lg-2">
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 1</div>
+				</div>
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 2</div>
+				</div>
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 3</div>
+				</div>
+				<div class="row devicetab">
+					<div class="device" onclick="displayFunction()">Device 4</div>
+				</div>
+			</div>
+
+
+			<div class="col-sm-6">
+				<div id=d_id> 
+					<div class="row alert">
+						<form>
+							<input type="range" class="slider" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+						</form>
+					</div>
+				</div>
+
+				<div id=d_id> 
+					<div class="row alert">
+						<form>
+							<input type="range" class="slider" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+						</form>
+					</div>
+					
+				</div>
+
+				<div id=d_id> 
+					<div class="row alert">
+						<form>
+							<input type="range" class="slider" name="amountRange" min="0" max="100" value="50" oninput="this.form.amountInput.value=this.value" />
+							<input type="number" class="slideform" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="blank"></div>
+			</div>
+		</div>
+		<script>
+			function displayFunction(){
+				document.getElementById("d_id").style.display = "block"
+			}
+		</script>
+
+
+	</body>
+</html>
